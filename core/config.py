@@ -25,3 +25,11 @@ METHOD = 'all'
 # Default extension to test against
 DEF_EXT = "1000"
 
+# Local port to use
+LPORT = 5060
+
+# Extra headers to add to the default header set
+EXT_HEADERS = {
+    'UnknownHeaderWithUnusualValue': ';;,,;;,;',
+    'NewFangledHeader': '''   newfangled value\r\ncontinued newfangled value''',
+}

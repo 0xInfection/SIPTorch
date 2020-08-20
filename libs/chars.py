@@ -9,8 +9,12 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
+# Whitespace chars
 TAB = r"	"
 WS = r" "
 EN_QUAD = r" "
 EM_QUAD = r" "
-IDG_SP = r"　"
+IDG_SEP = r"　"
+
+# Null char
+NULL_CHAR = r"%00"

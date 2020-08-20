@@ -10,26 +10,28 @@
 # https://github.com/0xInfection/SIPTorch
 
 import random
-from libs import lws
-from utils.utils import genComb
+from libs.chars import (
+    TAB,
+    EM_QUAD,
+    EN_QUAD,
+    WS,
+    IDG_SEP
+)
 
 # Upper costraint
 UP_CONST = 7
 # Lower constraint
 LW_CONST = 3
 
-def lwsInsert(msg, charc='random'):
+def lwsInsert(msg: str, charc='random'):
     '''
-    Inserts random lws characters into strings
+    Inserts random characters into strings randomly.
+    By default it inserts whitespaces, but you can use a string too.
     '''
-    # Fetching all whitespace chars
-    if hasattr(lws, '__all__'):
-        wschars = [getattr(lws, name) for name in lws.__all__]
-    else:
-        wschars = [getattr(lws, name) for name in dir(lws) if not name.startswith('_')]
-
+    wschars = [TAB, EN_QUAD, EM_QUAD, WS, IDG_SEP]
     # Generate the character sequence
     if charc is 'random':
+        # Fetching all whitespace chars
         return ''.join('%s%s' % (x, random.choice((random.choice(wschars), ""))) for x in msg)
     else:
         return ''.join('%s%s' % (x, random.choice((charc, ""))) for x in msg)

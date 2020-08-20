@@ -15,7 +15,7 @@ from collections import defaultdict
 
 def makeRequest(method, fromaddr, toaddr, dsthost, port, callid, srchost='', branchunique=None, cseq=1,
     auth=None, localtag=None, compact=False, contact='sip:123@1.1.1.1', accept='application/sdp', contentlength=None,
-    localport=5060, extension=None, contenttype=None, body='', useragent='ahm', requesturi=None):
+    contenttype=None, body='', requesturi=None):
     """makeRequest builds up a SIP request
     method - OPTIONS / INVITE etc
     toaddr = to address
@@ -24,6 +24,9 @@ def makeRequest(method, fromaddr, toaddr, dsthost, port, callid, srchost='', bra
     callid = callerid
     srchost = source host
     """
+    useragent = USER_AGENT
+    localport = LPORT
+    extension = DEF_EXT
     if extension is None or method == 'REGISTER':
         uri = 'sip:%s' % dsthost
     else:
