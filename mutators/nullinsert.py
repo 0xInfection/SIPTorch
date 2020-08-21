@@ -22,7 +22,5 @@ def nullInsert(msg: str, lent=1):
     Inserts random null chars into strings randomly.
     '''
     chard = NULL_CHAR * lent
-    return ''.join('%s%s' % (x, random.choice((chard, ""))) for x in msg)
-
-if __name__ == "__main__":
-    print(nullInsert('aaaaaaaaaaa', lent=2))
+    return ''.join('%s%s' % (x, 
+        random.choice((chard, ""))) for x in msg)

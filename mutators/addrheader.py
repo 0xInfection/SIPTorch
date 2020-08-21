@@ -11,7 +11,7 @@
 
 import logging
 from core.config import EXT_HEADERS
-from core.utils import parseMsg, ccatMetHead
+from core.utils import parseMsg, catMetHead
 
 def addRandHeader(msg: str):
     '''
@@ -20,6 +20,7 @@ def addRandHeader(msg: str):
     log = logging.getLogger('addRandHeader')
     if not msg:
         return
+    log.info('applying addRandHeader transformation')
     mline, head, body = parseMsg(msg)
     # Merging two dicts in
     try:
@@ -29,5 +30,6 @@ def addRandHeader(msg: str):
         fhead = head.copy()
         fhead.update(EXT_HEADERS)
     # Reforming the final message
-    fmsg = ccatMetHead(mline, fhead, body=body)
+    log.info("applied transformation")
+    fmsg = catMetHead(mline, fhead, body=body)
     return fmsg
