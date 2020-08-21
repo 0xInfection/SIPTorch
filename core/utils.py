@@ -43,36 +43,46 @@ def readHeader(temp: str):
     return hd
 
 
-def ccatMetHead(req: str, headers: dict, body=r''):
+def catMetHead(req: str, headers: dict, body=r''):
     '''
     Converts a dict of headers to a SIP message
     '''
     if not (req or headers):
         return
     for header in headers.items():
-        r += r'%s: %s\r\n' % header
-    r += r'\r\n'
-    r += body
-    return r
+        req += '%s: %s\r\n' % header
+    req += '\r\n'
+    req += body
+    return req
 
 
 def parseMsg(msg: str):
     '''
     Parses SIP messages into method line and header dict
     '''
+    log = logging.getLogger('parseMsg')
     if msg is None:
+        log.error("No message for parsing")
         return
-    mline, oth = msg.split(r'\r\n', 1)
-    # If method is INVITE, we need to separate the body as well
-    if "INVITE" in mline:
-        header, body = oth.split(r'\r\n\r\n')
-    else:
-        header, body = oth, None
-    
+    mline, oth = msg.split('\r\n', 1)
+    header, body = oth.split('\r\n\r\n')
     # Parsing the header into a dict
-    head = defaultdict()
-    h = header.split(r'\r\n')
+    head = dict()
+    h = header.split('\r\n')
     h = [i.strip() for i in h]
     for i in h:
         head[i.split(':')[0]] = i.split(':')[1]
     return (mline, head, body)
+
+def fileWriter(f, test, addr, data):
+    '''
+    Writes stuff to a file
+    '''
+    log = logging.getLogger('fileWriter')
+    host, port, *_ = addr
+    log.debug("Writing data for test: %s" % test)
+    with open(f, 'w+') as xwrt:
+        xwrt.write('[+] Test: %s' % test)
+        xwrt.write('[+] Address: %s:%s' % (str(host), str(port)))
+        xwrt.write('[+] Response: \n%s' % data.decode('utf-8', 'ignore'))
+    log.debug("Successfully written to %s" % f)
