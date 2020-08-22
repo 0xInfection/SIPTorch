@@ -16,7 +16,7 @@ from core.config import TIMEOUT, BIND_IFACE, LPORT
 def sockinit():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.settimeout(TIMEOUT)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SOL_SOCKET, 1)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SOL_BROADCAST, 1)
     return sock
 
 def sendreq(sock, data, dst):
