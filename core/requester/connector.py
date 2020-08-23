@@ -11,7 +11,7 @@
 
 import socket, logging, select
 from core.requester.parser import parseResponse
-from core.config import TIMEOUT, BIND_IFACE, LPORT
+from core.config import BIND_IFACE, LPORT, TIMEOUT
 
 def sockinit():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
