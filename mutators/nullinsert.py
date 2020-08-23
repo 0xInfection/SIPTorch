@@ -9,7 +9,7 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
-import random
+import random, logging
 from libs.chars import NULL_CHAR
 
 # Upper costraint
@@ -21,6 +21,10 @@ def nullInsert(msg: str, lent=1):
     '''
     Inserts random null chars into strings randomly.
     '''
+    log = logging.getLogger('nullInsert')
+    if not msg:
+        log.error('No message supplied for performing mutation')
+        return
     chard = NULL_CHAR * lent
     return ''.join('%s%s' % (x, 
         random.choice((chard, ""))) for x in msg)

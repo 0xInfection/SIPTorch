@@ -19,6 +19,7 @@ def addRandHeader(msg: str):
     '''
     log = logging.getLogger('addRandHeader')
     if not msg:
+        log.error('No message supplied for performing mutation')
         return
     log.info('applying addRandHeader transformation')
     mline, head, body = parseMsg(msg)
