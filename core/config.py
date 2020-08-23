@@ -13,7 +13,10 @@
 # during the SIP torture tests
 
 # Test URL to be tested
-TEST_URL = 'demo.sipvicious.pro'
+RHOST = 'demo.sipvicious.pro'
+
+# Target port to use
+RPORT = 5060
 
 # Local port to use
 LPORT = 5060
@@ -26,11 +29,25 @@ STATIC_CID = False
 # If you're using a static call id put it here
 CALL_ID = None
 
+# From address to use
+FROM_ADDR = '"siptorch"<sip:1000@1.1.1.1>'
+# Embed a static from tag here if you want it to be static
+FROM_TAG = None
+
+# To address to use
+TO_ADDR = '"siptorch"<sip:1000@1.1.1.1>'
+
+# Source host to use
+SRC_HOST = None
+
+# Default Cseq value to use
+CSEQ = 1
+
 # User-agent to use
 USER_AGENT = 'siptorch/0.1'
 
 # Contact header to use
-CONTACT = '1234@1.1.1.1'
+CONTACT = None
 
 # Accept value to use
 ACCEPT = 'application/sdp'
@@ -63,7 +80,6 @@ DEF_HSET = {
     'Allow'         : 'INVITE, ACK, CANCEL, BYE, NOTIFY, REFER, MESSAGE, OPTIONS, INFO, SUBSCRIBE',
     'Max-Forwards'  : '70',
     'User-Agent'    : USER_AGENT,
-    'Contact'       : CONTACT,
     'Accept'        : ACCEPT,
     'Call-ID'       : CALL_ID
 }

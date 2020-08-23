@@ -12,7 +12,6 @@
 import sys
 import random
 import logging
-from collections import defaultdict
 
 def genCombinations(lst, LW_CONST=3, UP_CONST=7):
     '''
@@ -37,7 +36,7 @@ def readHeader(temp: str):
     except (FileNotFoundError, OSError):
         log.error('File "%s" not found.' % temp)
         return
-    hd = defaultdict()
+    hd = dict()
     for i in dc:
         hd[i.split(':')[0]] = i.split(':')[1]
     return hd
@@ -73,6 +72,7 @@ def parseMsg(msg: str):
     for i in h:
         head[i.split(':')[0]] = i.split(':')[1]
     return (mline, head, body)
+
 
 def fileWriter(f, test, addr, data):
     '''
