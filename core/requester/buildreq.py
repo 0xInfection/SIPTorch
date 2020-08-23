@@ -12,10 +12,8 @@
 import random, socket
 from core.config import *
 from core.utils import catMetHead
-from collections import defaultdict
 
-def makeRequest(method, fromaddr, toaddr, dsthost, cseq=1,
-                localtag=None, contentlength=None, contenttype=None):
+def makeRequest(method, dsthost, contentlength=None, contenttype=None):
     """
     Build up the SIP request properly
     method - OPTIONS / INVITE etc
@@ -25,7 +23,6 @@ def makeRequest(method, fromaddr, toaddr, dsthost, cseq=1,
     srchost = source host
     """
     headers = DEF_HSET
-    localport = LPORT
     extension = DEF_EXT
     branchunique = BRANCH
     if 'invite' in method.lower():
@@ -39,17 +36,22 @@ def makeRequest(method, fromaddr, toaddr, dsthost, cseq=1,
         branchunique = '%s' % random.getrandbits(32)
     if method == 'ACK':
         localtag = None
-    srchost = socket.gethostbyname(socket.gethostname())
-    headers['Via'] = 'SIP/2.0/UDP %s:%s;branch=z9hG4bK-%s;rport' % (srchost, localport, branchunique)
+    if not SRC_HOST:
+        srchost = socket.gethostbyname(socket.gethostname())
+    else: srchost = SRC_HOST
+    headers['Via'] = 'SIP/2.0/UDP %s:%s;branch=z9hG4bK-%s;rport' % (srchost, LPORT, branchunique)
     headers['Max-Forwards'] = 70
-    headers['To'] = toaddr
-    headers['From'] = fromaddr
-    if localtag is not None:
-        headers['From'] += ';tag=%s' % localtag.decode('utf-8')
+    headers['To'] = TO_ADDR
+    headers['From'] = FROM_ADDR
+    if FROM_TAG is None:
+        headers['From'] += ';tag='+str(random.getrandbits(90))
+    else: headers['From'] += ';tag='+FROM_TAG
     if not STATIC_CID:
-        headers["Call-ID"] = random.getrandbits(32)
-    headers['CSeq'] = '%s %s' % (cseq, method)
+        headers["Call-ID"] = random.getrandbits(80)
+    headers['CSeq'] = '%s %s' % (CSEQ, method)
     headers['Content-Length'] = len(body)
+    if 'register' not in method.lower():
+        headers['Contact'] = 'sip:%s@%s:%s' % (DEF_EXT, srchost, LPORT)
     if contenttype is None and len(body) > 0:
         contenttype = 'application/sdp'
     if contenttype is not None:

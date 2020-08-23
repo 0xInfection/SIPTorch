@@ -16,7 +16,7 @@ from core.config import TIMEOUT, BIND_IFACE, LPORT
 def sockinit():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.settimeout(TIMEOUT)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SOL_SOCKET, 1)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     return sock
 
 def sendreq(sock, data, dst):
@@ -45,9 +45,10 @@ def handler(sock):
         if data:
             try:
                 buff, src = sock.recvfrom(8192)
-                data, host, port = parseResponse(buff, src)
+                daff, host, port = parseResponse(buff, src)
                 log.debug("Data received from: %s:%s" % (str(host), str(port)))
                 log.debug("Data: \n%s" % data)
+                break
             except socket.error as err:
                 log.error("Target %s errored out: %s" % (str(host), err.__str__))
-    return (data, host, port)
+    return (daff, host, port)
