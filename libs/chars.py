@@ -18,3 +18,8 @@ IDG_SEP = r"　"
 
 # Null char
 NULL_CHAR = r"%00"
+
+# Backslash sequence to insert
+BACKSLASH_SEQ1 = r'\\\"'
+BACKSLASH_SEQ2 = r'\"\"'
+# 
