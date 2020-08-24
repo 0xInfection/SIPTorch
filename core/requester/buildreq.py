@@ -9,56 +9,58 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
+import logging
 import random, socket
 from core.config import *
 from core.utils import catMetHead
+from core.requester import parser
 
-def makeRequest(method, dsthost, contentlength=None, contenttype=None):
-    """
-    Build up the SIP request properly
-    method - OPTIONS / INVITE etc
-    toaddr = to address
-    dsthost = destination host
-    callid = callerid
-    srchost = source host
-    """
+def makeRequest(method, bsbody='', contentlength=None):
+    '''
+    Build up the SIP request properly from scratch
+    '''
     headers = DEF_HSET
     extension = DEF_EXT
-    branchunique = BRANCH
+    branch = BRANCH
+    body = ''
+    if not SRC_HOST:
+        srchost = socket.gethostbyname(socket.gethostname())
+    dsthost = IP if IP else parser.validateHost(RHOST)
     if 'invite' in method.lower():
         body = INVITE_BODY
-    else: body = ''
-    if extension is None or method == 'REGISTER':
+        body = body.replace('x.x.x.x', srchost).replace('y.y.y.y', dsthost)
+    if bsbody: 
+        body = bsbody
+    if extension is None or method.upper() == 'REGISTER':
         uri = 'sip:%s' % dsthost
     else:
         uri = 'sip:%s@%s' % (extension, dsthost)
-    if branchunique is None:
-        branchunique = '%s' % random.getrandbits(32)
-    if method == 'ACK':
-        localtag = None
-    if not SRC_HOST:
-        srchost = socket.gethostbyname(socket.gethostname())
+    if not BRANCH:
+        branch = '%s' % random.getrandbits(32)
     else: srchost = SRC_HOST
-    headers['Via'] = 'SIP/2.0/UDP %s:%s;branch=z9hG4bK-%s;rport' % (srchost, LPORT, branchunique)
+    headers['Via'] = 'SIP/2.0/UDP %s:%s;branch=z9hG4bK-%s;rport' % (srchost, LPORT, branch)
     headers['Max-Forwards'] = 70
     headers['To'] = TO_ADDR
     headers['From'] = FROM_ADDR
-    if FROM_TAG is None:
-        headers['From'] += ';tag='+str(random.getrandbits(90))
-    else: headers['From'] += ';tag='+FROM_TAG
+    # If method is register, we need to modify To, From header fields
+    if method == 'REGISTER':
+        headers['From'] = '"%s"<sip:%s@%s>' % (extension, extension, RHOST)
+        headers['To'] = headers['From']
+    if method.lower() != 'ack':
+        if FROM_TAG is None:
+            headers['From'] += ';tag='+str(random.getrandbits(90))
+        else: headers['From'] += ';tag='+FROM_TAG
     if not STATIC_CID:
         headers["Call-ID"] = random.getrandbits(80)
     headers['CSeq'] = '%s %s' % (CSEQ, method)
     headers['Content-Length'] = len(body)
     if 'register' not in method.lower():
-        headers['Contact'] = 'sip:%s@%s:%s' % (DEF_EXT, srchost, LPORT)
-    if contenttype is None and len(body) > 0:
+        headers['Contact'] = 'sip:%s@%s' % (DEF_EXT, RHOST)
+    if CONTENT_TYPE is None and len(body) > 0:
         contenttype = 'application/sdp'
+    else: contenttype = CONTENT_TYPE
     if contenttype is not None:
         headers['Content-Type'] = contenttype
     r = '%s %s SIP/2.0\r\n' % (method, uri)
     x = catMetHead(r, headers, body=body)
     return x
-
-if __name__ == "__main__":
-    print(makeRequest('INVITE', 'sip:1000@192.168.4.4', 'sip:1@192.13.3.3', '1.1.1.1'))
