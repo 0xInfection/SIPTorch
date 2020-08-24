@@ -27,21 +27,24 @@ from core.requester import (
     connector,
     parser
 )
-from core.config import *
-
+from core import config
+from tests.backcomp.inv2543 import inv2543
+logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger('main')
 log.info('Testing target')
-ip = parser.validateHost(RHOST)
+ip = parser.validateHost(config.RHOST)
+config.IP = ip
 if not ip:
     log.critical("Invalid target specified, please check your input URL")
 log.debug('Initiating socket connection')
 sock = connector.sockinit()
-req = buildreq.makeRequest('OPTIONS', ip)
+req = inv2543()
 try:
-    connector.sendreq(sock, req, (ip, RPORT))
+    log.debug(config.IP)
+    connector.sendreq(sock, req, (config.IP, config.RPORT))
     data, host, port = connector.handler(sock)
     print("Target: \n%s:%s" % (host, port))
-    print("\nRequest: \n%s" % req)
+    print("\nRequest: \n%s\n" % req)
 except socket.error as e:
     log.warn("Something's not right: %s" % e.__str__)
 if data:
