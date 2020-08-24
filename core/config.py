@@ -12,8 +12,10 @@
 # This file contains all core config variables to be used 
 # during the SIP torture tests
 
-# Test URL to be tested
+# Test URL to be tested, pass a domain here
 RHOST = 'demo.sipvicious.pro'
+# Pass the IP here
+IP = ''
 
 # Target port to use
 RPORT = 5060
@@ -54,6 +56,9 @@ ACCEPT = 'application/sdp'
 
 # Branch ID to use (embed a hardcoded static branch tag)
 BRANCH = None
+
+# Content type for the body you provided
+CONTENT_TYPE = None
 
 # Extra headers to add to the default header set
 EXT_HEADERS = {
