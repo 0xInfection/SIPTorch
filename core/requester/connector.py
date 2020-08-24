@@ -38,8 +38,8 @@ def handler(sock):
     log.debug("binding to %s:%s" % (bindingface, LPORT))
     try:
         sock.bind((bindingface, localport))
-    except socket.error:
-        log.critical("cannot bind to %s" % localport)
+    except socket.error as err:
+        pass
     while True:
         data, *_ = select.select(rlist, wlist, xlist, TIMEOUT)
         if data:
@@ -47,7 +47,7 @@ def handler(sock):
                 buff, src = sock.recvfrom(8192)
                 daff, host, port = parseResponse(buff, src)
                 log.debug("Data received from: %s:%s" % (str(host), str(port)))
-                log.debug("Data: \n%s" % data)
+                log.debug("Data: \n%s" % daff)
                 break
             except socket.error as err:
                 log.error("Target %s errored out: %s" % (str(host), err.__str__))
