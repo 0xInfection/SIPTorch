@@ -21,7 +21,7 @@ def addRandHeader(msg: str):
     if not msg:
         log.error('No message supplied for performing mutation')
         return
-    log.info('applying addRandHeader transformation')
+    log.info('Applying addRandHeader transformation')
     mline, head, body = parseMsg(msg)
     # Merging two dicts in
     try:
