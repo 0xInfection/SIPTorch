@@ -48,6 +48,8 @@ def catMetHead(req: str, headers: dict, body=r''):
     '''
     if not (req or headers):
         return
+    if '\r\n' not in req:
+        req += '\r\n'
     for header in headers.items():
         req += '%s: %s\r\n' % header
     req += '\r\n'
@@ -70,7 +72,7 @@ def parseMsg(msg: str):
     h = header.split('\r\n')
     h = [i.strip() for i in h]
     for i in h:
-        head[i.split(':')[0]] = i.split(':')[1]
+        head[i.split(':', 1)[0]] = i.split(':', 1)[1].strip()
     return (mline, head, body)
 
 
