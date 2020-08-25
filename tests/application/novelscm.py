@@ -11,6 +11,7 @@
 
 import logging
 from core.config import IP, RPORT
+from core.plugrun import runPlugin
 from core.requester import buildreq
 from core.utils import parseMsg, catMetHead
 
@@ -44,3 +45,11 @@ def novelscm():
     # Forming the request message back up
     mg = catMetHead(mline, head, body=body)
     return mg
+
+def run(sock):
+    '''
+    Run this module by sending the actual request
+    '''
+    log = logging.getLogger('run')
+    if runPlugin(sock, novelscm()):
+        log.info('Module %s completed' % module_info['test'])

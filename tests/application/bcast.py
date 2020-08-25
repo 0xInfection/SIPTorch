@@ -32,6 +32,7 @@ def bcast():
     against this as an avenue of attack, proxies should drop such
     responses.
     '''
+    bcastaddr = '255.255.255.255'
     log = logging.getLogger('bcast')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
@@ -39,14 +40,14 @@ def bcast():
     # Tweak 1: The message header first
     mline = 'SIP/2.0 200 OK'
     # Tweak 2: Add another via header
-    head['via'] = 'SIP/2.0/UDP 255.255.255.255;branch=z9hG4bK-%s' % random.getrandbits(32)
+    head['via'] = 'SIP/2.0/UDP %s;branch=z9hG4bK-%s' % (random.getrandbits(32), bcastaddr)
     # Recompiling our message
     mg = catMetHead(mline, head, body=body)
     return mg
 
 def run(sock):
     '''
-    Run this module
+    Run this module by sending the actual request
     '''
     log = logging.getLogger('run')
     if runPlugin(sock, bcast()):

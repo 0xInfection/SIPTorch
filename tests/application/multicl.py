@@ -10,6 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging, random
+from core.plugrun import runPlugin
 from core.requester import buildreq
 from core.utils import parseMsg, catMetHead
 
@@ -37,3 +38,11 @@ def multicl():
     # Recompiling our message
     mg = catMetHead(mline, head, body=body)
     return mg
+
+def run(sock):
+    '''
+    Run this module by sending the actual request
+    '''
+    log = logging.getLogger('run')
+    if runPlugin(sock, multicl()):
+        log.info('Module %s completed' % module_info['test'])

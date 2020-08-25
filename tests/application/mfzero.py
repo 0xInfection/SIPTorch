@@ -11,6 +11,7 @@
 
 import logging
 from core.requester import buildreq
+from core.plugrun import runPlugin
 from core.utils import parseMsg, catMetHead
 
 module_info = {
@@ -36,3 +37,11 @@ def mfzero():
     # Forming the request message back up
     mg = catMetHead(mline, head, body=body)
     return mg
+
+def run(sock):
+    '''
+    Run this module by sending the actual request
+    '''
+    log = logging.getLogger('run')
+    if runPlugin(sock, mfzero()):
+        log.info('Module %s completed' % module_info['test'])

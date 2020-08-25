@@ -11,6 +11,7 @@
 
 import logging, random
 from core.requester import buildreq
+from core.plugrun import runPlugin
 from core.utils import parseMsg, catMetHead
 from mutators.replparam import genRandStr
 
@@ -42,3 +43,11 @@ def reqpreq():
     # Forming the request message back up
     mg = catMetHead(mline, head, body=body)
     return mg
+
+def run(sock):
+    '''
+    Run this module by sending the actual request
+    '''
+    log = logging.getLogger('run')
+    if runPlugin(sock, reqpreq()):
+        log.info('Module %s completed' % module_info['test'])
