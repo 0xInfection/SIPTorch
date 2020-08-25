@@ -11,18 +11,19 @@
 
 import socket, logging, select
 from core.requester.parser import parseResponse
-from core.config import BIND_IFACE, LPORT, TIMEOUT
+from core.config import BIND_IFACE, LPORT, TIMEOUT, IP, RPORT
 
 def sockinit():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM | socket.SOCK_NONBLOCK)
     sock.settimeout(TIMEOUT)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     return sock
 
-def sendreq(sock, data, dst):
+def sendreq(sock, data):
     '''
     Sends the request to the server
     '''
+    dst = (IP, RPORT)
     while data:
         # SIP RFC states the default serialized encoding is utf-8
         bytes_sent = sock.sendto(bytes(data[:8192], 'utf-8'), dst)
