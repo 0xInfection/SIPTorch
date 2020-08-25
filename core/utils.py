@@ -44,7 +44,7 @@ def readHeader(temp: str):
 
 def catMetHead(req: str, headers: dict, body=r''):
     '''
-    Converts a dict of headers to a SIP message
+    Converts a request line, dict of headers, body to a SIP message
     '''
     if not (req or headers):
         return
