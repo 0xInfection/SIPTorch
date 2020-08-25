@@ -23,6 +23,15 @@ module_info = {
 def unkscm2():
     '''
     Unknown Request URI with Unknown Scheme in Header Fields
+
+    This message contains registered schemes in the To, From, and Contact
+    header fields of a request.  The message is syntactically valid.
+    Parsers must not fail when receiving this message.
+
+    Proxies should treat this message as they would any other request for
+    this URI.  A registrar would reject this request with a 400 Bad
+    Request response, since the To: header field is required to contain a
+    SIP or SIPS URI as an AOR.
     '''
     log = logging.getLogger('unkscm2')
     log.info('Testing module: %s' % module_info['test'])
