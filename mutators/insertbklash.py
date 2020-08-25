@@ -25,5 +25,3 @@ def insertBkSlash(msg: str):
         seq = random.choice([BACKSLASH_SEQ1, BACKSLASH_SEQ2])
         s = msg.replace('"', seq, 2).replace(seq, '"', 1)
     return s
-
-print(insertBkSlash('aaaaaaaaaaaaaaaaaaaaaaa"aaaa"aaaaa'))
