@@ -20,8 +20,10 @@ def insertBkSlash(msg: str):
     if not msg:
         log.error("Nothing to apply transformation to")
         return
-    if "\"" in msg:
+    if "\"" not in msg:
+        log.error('Unable to perform transformation, no quotes detected')
+        return
         # Replacing at the second occurance
-        seq = random.choice([BACKSLASH_SEQ1, BACKSLASH_SEQ2])
-        s = msg.replace('"', seq, 2).replace(seq, '"', 1)
+    seq = random.choice([BACKSLASH_SEQ1, BACKSLASH_SEQ2])
+    s = msg.replace('"', seq, 2).replace(seq, '"', 1)
     return s
