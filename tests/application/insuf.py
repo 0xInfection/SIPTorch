@@ -12,7 +12,6 @@
 import logging
 from core.requester import buildreq
 from core.utils import parseMsg, catMetHead
-from mutators.replparam import rmallParam, rmspcParam
 
 module_info = {
     'category'  :   'Application Layer Semantics',
@@ -23,6 +22,12 @@ module_info = {
 def insuf():
     '''
     INVITE Message Missing Required Header Fields
+
+    This request contains no Call-ID, From, or To header fields.
+
+    An element receiving this message must not break because of the
+    missing information.  Ideally, it will respond with a 400 Bad Request
+    error.
     '''
     log = logging.getLogger('insuf')
     log.info('Testing module: %s' % module_info['test'])
@@ -33,7 +38,7 @@ def insuf():
     for x in rmhead:
         head.pop(x, None)
     # Tweak 2: Adding a random header
-    head['1'] = '152'
+    head['Content-Length'] = '152'
     # Forming the request message back up
     mg = catMetHead(mline, head, body=body)
     return mg
