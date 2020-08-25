@@ -23,6 +23,14 @@ module_info = {
 def reqpreq():
     '''
     Require & Proxy-Require Implementation Stress
+
+    This request tests proper implementation of SIP's Proxy-Require and
+    Require extension mechanisms.
+
+    Any element receiving this request will respond with a 420 Bad
+    Extension response, containing an Unsupported header field listing
+    these features from either the Require or Proxy-Require header field,
+    depending on the role in which the element is responding.
     '''
     log = logging.getLogger('reqpreq')
     log.info('Testing module: %s' % module_info['test'])
