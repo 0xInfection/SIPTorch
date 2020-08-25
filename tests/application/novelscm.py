@@ -23,6 +23,16 @@ module_info = {
 def novelscm():
     '''
     OPTIONS Request-URI with Known but Atypical Scheme
+
+    This OPTIONS contains an Request-URI with an IANA-registered scheme
+    that does not commonly appear in Request-URIs of SIP requests.  A
+    parser must accept this as a well-formed SIP request.
+
+    If an element will never accept this scheme as meaningful in a
+    Request-URI, it is appropriate to treat it as unknown and return a
+    416 Unsupported URI Scheme response.  If the element might accept
+    some URIs with this scheme, then a 404 Not Found is appropriate for
+    those URIs it doesn't accept.
     '''
     log = logging.getLogger('novelscm')
     log.info('Testing module: %s' % module_info['test'])
