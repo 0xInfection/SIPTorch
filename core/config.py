@@ -15,7 +15,7 @@
 # Test URL to be tested, pass a domain here
 RHOST = 'demo.sipvicious.pro'
 # Pass the IP here
-IP = ''
+IP = '172.104.142.43'
 
 # Target port to use
 RPORT = 5060
@@ -32,12 +32,12 @@ STATIC_CID = False
 CALL_ID = None
 
 # From address to use
-FROM_ADDR = '"siptorch"<sip:1000@1.1.1.1>'
+FROM_ADDR = '"siptorch" <sip:1000@1.1.1.1>'
 # Embed a static from tag here if you want it to be static
 FROM_TAG = None
 
 # To address to use
-TO_ADDR = '"siptorch"<sip:1000@1.1.1.1>'
+TO_ADDR = '"siptorch" <sip:1000@1.1.1.1>'
 
 # Source host to use
 SRC_HOST = None
@@ -78,7 +78,7 @@ IP6_SUPPORT = False
 METHOD = 'all'
 
 # Default extension to test against
-DEF_EXT = "1000"
+DEF_EXT = "2000"
 
 # Default header set
 DEF_HSET = {

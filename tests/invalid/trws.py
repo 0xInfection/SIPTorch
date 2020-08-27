@@ -12,7 +12,6 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.config import RHOST, DEF_EXT
 from core.utils import parseMsg, catMetHead
 
 module_info = {
@@ -41,7 +40,7 @@ def trws():
     # Tweak 1: Add a non-ascii utf junk at the end of req. line
     mline = mline.strip('\r\n')
     # Using the 0x00002020 as a junk char
-    mline += bytearray.fromhex('00002020').decode('utf-8')
+    mline += bytearray.fromhex('2020').decode('utf-8')
     mg = catMetHead(mline, head, body=body)
     return mg
 
