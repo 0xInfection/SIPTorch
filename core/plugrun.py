@@ -43,8 +43,7 @@ def runPlugin(sock, msg: str, minfo: dict):
 ```
 %s
 ```
-
-        ''' % (minfo['test'], minfo['category'], minfo['id'], msg, data)
+        ''' % (minfo['test'], minfo['category'], minfo['id'], msg.strip(), data.strip())
         logresp(logdata)
         return True
     except socket.error as err:
