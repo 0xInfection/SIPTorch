@@ -14,10 +14,10 @@ import socket
 import logging
 import pluginbase
 from core import config
-from functools import partial
+from core.logger import logresp
 from core.requester import connector
 
-def runPlugin(sock, msg: str):
+def runPlugin(sock, msg: str, minfo: dict):
     '''
     Perform the request and print results
     '''
@@ -30,17 +30,31 @@ def runPlugin(sock, msg: str):
         connector.sendreq(sock, msg)
         data, *_ = connector.handler(sock)
         log.debug('\nRequest: %s\nResponse: %s' % (msg, data))
+        log.debug('Logging data to file')
+        logdata = '''
+### Test: %s
+- Category: %s
+- ID: `%s`
+- Request:
+```
+%s
+```
+- Response:
+```
+%s
+```
+
+        ''' % (minfo['test'], minfo['category'], minfo['id'], msg, data)
+        logresp(logdata)
         return True
     except socket.error as err:
-        log.critical('Something\'s not right here: %s' % err.__str__)
+        log.critical('Something\'s not right here: %s' % err.__str__())
         return 
 
 def runAll(sock):
     '''
     Runs all the plugins at once
     '''
-    here = os.path.abspath(os.path.dirname(__file__))
-    get_path = partial(os.path.join, here)
     plugin = pluginbase.PluginBase(package='tests')
     pluginsource = plugin.make_plugin_source(
         searchpath=['./tests/application', 

@@ -44,5 +44,5 @@ def run(sock):
     Run this module by sending the actual request
     '''
     log = logging.getLogger('run')
-    if runPlugin(sock, lwsuri()):
+    if runPlugin(sock, lwsuri(), minfo=module_info):
         log.info('Module %s completed' % module_info['test'])

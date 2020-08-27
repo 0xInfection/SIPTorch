@@ -75,7 +75,7 @@ IP6_SUPPORT = False
 # Request method to test. If this var is set to "all" then all existing
 # tests will be done, otherwise specify your method explicitly
 # METHOD = "INVITE" 
-METHOD = 'all'
+# METHOD = 'all'
 
 # Default extension to test against
 DEF_EXT = "2000"
@@ -94,3 +94,6 @@ TIMEOUT = 7
 
 # Binding interface to use
 BIND_IFACE = 'any'
+
+# 
+OUTPUT_DIR = './siptorch-output/'

@@ -52,9 +52,9 @@ def handler(sock):
                 log.debug("Data: \n%s" % daff)
                 break
             except socket.error as err:
-                log.error("Target %s errored out: %s" % (str(host), err.__str__))
+                log.error("Target %s errored out: %s" % (str(host), err.__str__()))
             except socket.timeout as err:
-                log.error('Timeout occured: %s' % err.__str__)
+                log.error('Timeout occured: %s' % err.__str__())
         else:
             try:
                 buff, src = sock.recvfrom(8192)
@@ -63,5 +63,5 @@ def handler(sock):
                 log.debug("Data: \n%s" % daff)
                 break
             except socket.timeout as err:
-                log.error('Timeout occured: %s' % err.__str__)
+                log.error('Timeout occured: %s' % err.__str__())
     return (daff, host, port)

@@ -65,5 +65,5 @@ def lookUp(url: str, typef='ip', port=RPORT):
             ip = socket.gethostbyname(url)
             return ip
     except socket.error as err:
-        log.critical("Socket errored out with: %s" % err.__str__)
+        log.critical("Socket errored out with: %s" % err.__str__())
         return
