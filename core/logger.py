@@ -9,7 +9,7 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
-import os, logging
+import os, logging, sys
 from core.config import (
     OUTPUT_DIR, 
     RHOST, 
@@ -23,6 +23,10 @@ def checkDir():
     Check if directories are present and create 
     the output locations
     '''
+    global host
+    host = RHOST
+    if not RHOST:
+        host = IP
     log = logging.getLogger('checkDir')
     dirc = OUTPUT_DIR
     if not dirc.endswith('/'):
@@ -34,21 +38,19 @@ def checkDir():
     except FileExistsError:
         log.error('Directory %s already exists' % dirc)
         return dirc
+    if os.path.exists(dirc+host+'.md'):
+        log.critical('Report for this site already exists')
+        sys.exit('Exiting...')
     return dirc
+
+global dirc
+dirc = checkDir() + host + '.md'
 
 def loggerinit():
     '''
     Module to get stuff together
     '''
-    host = RHOST
-    if not RHOST:
-        host = IP
-    # First we check if directory already exists
-    global dirc
-    # We do markdown format
-    dirc = checkDir() + host + '.md'
-    s = '''
-# SIPTorch Report
+    s = '''# SIPTorch Report
 
 ## Target Specifications:
 - __Target:__ %s
