@@ -13,6 +13,7 @@ import socket
 import logging
 from core import config
 from core.plugrun import runAll
+from core.logger import loggerinit
 from core.requester import parser, connector
 
 def startEngine():
@@ -28,4 +29,5 @@ def startEngine():
         log.critical("Invalid target specified, please check your input URL")
     log.debug('Initiating socket connection')
     sock = connector.sockinit()
+    loggerinit()
     runAll(sock)
