@@ -23,24 +23,24 @@ UP_CONST = 7
 # Lower constraint
 LW_CONST = 3
 
-def lwsInsert(msg: str, crlf=False, charc='random'):
+def lwsInsert(msg: str, length=3, crlf=False, charc='random', endsonly=False):
     '''
-    Inserts random characters into strings randomly.
-    By default it inserts whitespaces, but you can use a string too.
+    Inserts LWS into strings based on options available.
+    Can also input CRLF sequences at positions for mutating strings. 
     '''
     log = logging.getLogger('lwsInsert')
     if not msg:
         log.error('No message supplied for performing mutation')
         return
     wschars = [TAB, EN_QUAD, EM_QUAD, WS, IDG_SEP]
-    # Generate the character sequence
+    if endsonly:
+        log.debug('Performing ends-only LWS mutation')
+        s = msg.replace(' ', (random.choice(wschars)*length))
+    # If charc is random then, we randomly insert chars
     if charc == 'random':
-        # Fetching all whitespace chars
         log.debug('Performing random LWS mutation')
-        s = ''.join('%s%s' % (x, random.choice((random.choice(wschars), ""))) for x in msg)
-    else:
-        log.debug('Performing single LWS mutation')
-        s = ''.join('%s%s' % (x, random.choice((charc, ""))) for x in msg)
+        s = ''.join('%s%s' % (x, random.choice((
+            random.choice(wschars), ""))) for x in msg)
     if crlf:
         log.debug('Applying CRLF transformation')
         for x in s:
