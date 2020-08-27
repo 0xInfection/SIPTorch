@@ -12,7 +12,6 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.config import RHOST, DEF_EXT
 from core.utils import parseMsg, catMetHead
 
 module_info = {
