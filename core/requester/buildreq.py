@@ -44,7 +44,7 @@ def makeRequest(method, bsbody='', contentlength=None):
     headers['From'] = FROM_ADDR
     # If method is register, we need to modify To, From header fields
     if method == 'REGISTER':
-        headers['From'] = '"%s"<sip:%s@%s>' % (extension, extension, RHOST)
+        headers['From'] = '"%s" <sip:%s@%s>' % (extension, extension, RHOST)
         headers['To'] = headers['From']
     if method.lower() != 'ack':
         if FROM_TAG is None:
@@ -55,7 +55,7 @@ def makeRequest(method, bsbody='', contentlength=None):
     headers['CSeq'] = '%s %s' % (CSEQ, method)
     headers['Content-Length'] = len(body)
     if 'register' not in method.lower():
-        headers['Contact'] = 'sip:%s@%s' % (DEF_EXT, RHOST)
+        headers['Contact'] = '<sip:%s@%s>' % (DEF_EXT, RHOST)
     if CONTENT_TYPE is None and len(body) > 0:
         contenttype = 'application/sdp'
     else: contenttype = CONTENT_TYPE

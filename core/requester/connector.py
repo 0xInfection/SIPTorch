@@ -33,6 +33,7 @@ def handler(sock):
     log = logging.getLogger('handler')
     bindingface = BIND_IFACE
     localport = LPORT
+    host = IP
     # Descriptors to use during async I/O waiting
     rlist = [sock]
     wlist, xlist = list(), list()
@@ -42,7 +43,7 @@ def handler(sock):
     except socket.error as err:
         pass
     while True:
-        data, *_ = select.select(rlist, wlist, xlist, TIMEOUT)
+        data, *_ = select.select(rlist, wlist, xlist, 0.005)
         if data:
             try:
                 buff, src = sock.recvfrom(8192)
@@ -52,4 +53,15 @@ def handler(sock):
                 break
             except socket.error as err:
                 log.error("Target %s errored out: %s" % (str(host), err.__str__))
+            except socket.timeout as err:
+                log.error('Timeout occured: %s' % err.__str__)
+        else:
+            try:
+                buff, src = sock.recvfrom(8192)
+                daff, host, port = parseResponse(buff, src)
+                log.debug("Data received from: %s:%s" % (str(host), str(port)))
+                log.debug("Data: \n%s" % daff)
+                break
+            except socket.timeout as err:
+                log.error('Timeout occured: %s' % err.__str__)
     return (daff, host, port)
