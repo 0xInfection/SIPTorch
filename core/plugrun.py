@@ -46,7 +46,7 @@ def runAll(sock):
         searchpath=['./tests/application', 
                     './tests/backcomp', 
                     './tests/invalid',
-                    './tests/parser',
+                    #'./tests/parser',
                     './tests/transaction'
                 ])
     for plug in pluginsource.list_plugins():
