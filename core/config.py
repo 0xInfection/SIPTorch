@@ -90,7 +90,7 @@ DEF_HSET = {
 }
 
 # Timeout to use
-TIMEOUT = 7
+TIMEOUT = 3
 
 # Binding interface to use
 BIND_IFACE = 'any'
