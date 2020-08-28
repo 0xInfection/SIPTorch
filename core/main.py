@@ -14,7 +14,7 @@ import socket
 import logging
 from core import config
 from core.plugrun import runAll
-from core.logger import loggerinit
+from core.logger import loggerinit, logfooter
 from core.requester import parser, connector
 
 def startEngine():
@@ -34,4 +34,5 @@ def startEngine():
     runAll()
     log.info('All modules completed.')
     timeend = time.time()
-    log.info('Total time taken: %s' % (timestart - timeend))
+    log.info('Total time taken: %ss' % (timeend - timestart))
+    logfooter(timestart, timeend)

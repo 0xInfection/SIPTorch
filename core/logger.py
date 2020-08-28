@@ -9,6 +9,7 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
+import datetime
 import os, logging, sys
 from core.config import (
     OUTPUT_DIR, 
@@ -61,7 +62,7 @@ def loggerinit():
 ## Tests:
     ''' % (RHOST, IP, RPORT, DEF_EXT)
     # Creating the file now
-    with open(dirc, 'w+', encoding='utf-8', newline='\n') as f:
+    with open(dirc, 'w+', encoding='utf-8', newline='\r\n') as f:
         f.write(s)
 
 
@@ -71,7 +72,21 @@ def logresp(content):
     '''
     log = logging.getLogger('logresp')
     try:
-        with open(dirc, 'a', encoding='utf-8', newline='\n') as f:
+        with open(dirc, 'a', encoding='utf-8', newline='\r\n') as f:
             f.write(content+'\n')
     except Exception as e:
         log.error("Error: %s" % e.__str__())
+
+def logfooter(start, end):
+    '''
+    Add footer info
+    '''
+    content = '''## Benchmarks:
+- __Date:__ %s
+- __Start Time:__ %s
+- __End Time:__ %s
+- __Total Time Taken:__ %s
+''' % ( datetime.datetime.now().strftime('%x'), 
+        start, end, (end-start) )
+    with open(dirc, 'a', encoding='utf-8', newline='\r\n') as f:
+        f.write(content+'\n')
