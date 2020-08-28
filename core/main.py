@@ -9,6 +9,7 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
+import time
 import socket
 import logging
 from core import config
@@ -22,6 +23,7 @@ def startEngine():
     '''
     logging.basicConfig(level=logging.INFO)
     log = logging.getLogger('main')
+    timestart = time.time()
     log.info('Testing target')
     ip = parser.validateHost(config.RHOST)
     config.IP = ip
@@ -30,3 +32,6 @@ def startEngine():
     log.debug('Initiating socket connection')
     loggerinit()
     runAll()
+    log.info('All modules completed.')
+    timeend = time.time()
+    log.info('Total time taken: %s' % (timestart - timeend))
