@@ -44,8 +44,7 @@ def runPlugin(msg: str, minfo: dict):
 - Response:
 ```
 %s
-```
-            ''' % (minfo['test'], minfo['category'], minfo['id'], msg.strip(), data.strip())
+```''' % (minfo['test'], minfo['category'], minfo['id'], msg.strip(), data.strip())
             logresp(logdata)
         # We wait for more data
         if parser.checkBadResponse(data):
@@ -59,6 +58,7 @@ def runPlugin(msg: str, minfo: dict):
 ```
                 ''' % data.strip()
                 logresp(logdata)
+        sock.close()
         return True
     except socket.error as err:
         log.critical('Something\'s not right here: %s' % err.__str__())
