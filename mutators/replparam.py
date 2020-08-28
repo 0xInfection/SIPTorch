@@ -12,6 +12,7 @@
 import random
 import string
 import logging
+
 hard = 'someval=value'
 
 def genRandStr(length):

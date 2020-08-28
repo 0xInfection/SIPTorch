@@ -32,12 +32,12 @@ STATIC_CID = False
 CALL_ID = None
 
 # From address to use
-FROM_ADDR = '"siptorch" <sip:1000@1.1.1.1>'
+FROM_ADDR = ''
 # Embed a static from tag here if you want it to be static
 FROM_TAG = None
 
 # To address to use
-TO_ADDR = '"siptorch" <sip:1000@1.1.1.1>'
+TO_ADDR = ''
 
 # Source host to use
 SRC_HOST = None
@@ -95,5 +95,8 @@ TIMEOUT = 7
 # Binding interface to use
 BIND_IFACE = 'any'
 
-# 
+# Log to file bool
+LOG_FILE = True
+
+# Default output directory to use
 OUTPUT_DIR = './siptorch-output/'

@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import random, logging
-from libs.chars import NULL_CHAR
+from libs.data import NULL_CHAR
 
 # Upper costraint
 UP_CONST = 7
