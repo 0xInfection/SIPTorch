@@ -40,14 +40,16 @@ def invct():
     head['Content-Type'] = 'application/%s' % genRandStr(10)
     # Tweak 2: Modify the body
     body = '<audio>\r\n  <pcmu port="443"/>\r\n</audio>'
+    # Tweak 3: Modify the content-length
+    head['Content-Length'] = '%s' % len(body)
     # Forming the request message back up
     mg = catMetHead(mline, head, body=body)
     return mg
 
-def run(sock):
+def run():
     '''
     Run this module by sending the actual request
     '''
     log = logging.getLogger('run')
-    if runPlugin(sock, invct(), minfo=module_info):
+    if runPlugin(invct(), minfo=module_info):
         log.info('Module %s completed' % module_info['test'])

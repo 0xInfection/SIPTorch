@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import random, logging
-from libs.chars import (
+from libs.data import (
     TAB,
     EM_QUAD,
     EN_QUAD,

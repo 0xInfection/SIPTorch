@@ -38,10 +38,10 @@ def mfzero():
     mg = catMetHead(mline, head, body=body)
     return mg
 
-def run(sock):
+def run():
     '''
     Run this module by sending the actual request
     '''
     log = logging.getLogger('run')
-    if runPlugin(sock, mfzero(), minfo=module_info):
+    if runPlugin(mfzero(), minfo=module_info):
         log.info('Module %s completed' % module_info['test'])
