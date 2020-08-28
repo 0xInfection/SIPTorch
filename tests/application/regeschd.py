@@ -42,10 +42,10 @@ def regeschd():
     mg = catMetHead(mline, head, body=body)
     return mg
 
-def run(sock):
+def run():
     '''
     Run this module by sending the actual request
     '''
     log = logging.getLogger('run')
-    if runPlugin(sock, regeschd(), minfo=module_info):
+    if runPlugin(regeschd(), minfo=module_info):
         log.info('Module %s completed' % module_info['test'])
