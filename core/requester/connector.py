@@ -62,4 +62,4 @@ def handler(sock):
                 return ('Generic Timeout Occured - No Response Received', '', '')
             except socket.error as err:
                 log.error("Target %s errored out: %s" % (str(host), err.__str__()))
-                return ('', '', '')
+                return ('Error Enountered: %s' % err.__str__(), '', '')
