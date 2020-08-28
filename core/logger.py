@@ -62,7 +62,7 @@ def loggerinit():
 ## Tests:
     ''' % (RHOST, IP, RPORT, DEF_EXT)
     # Creating the file now
-    with open(dirc, 'w+', encoding='utf-8', newline='\r\n') as f:
+    with open(dirc, 'w+', encoding='utf-8', newline='\n') as f:
         f.write(s)
 
 
@@ -72,7 +72,7 @@ def logresp(content):
     '''
     log = logging.getLogger('logresp')
     try:
-        with open(dirc, 'a', encoding='utf-8', newline='\r\n') as f:
+        with open(dirc, 'a', encoding='utf-8', newline='\n') as f:
             f.write(content+'\n')
     except Exception as e:
         log.error("Error: %s" % e.__str__())
@@ -88,5 +88,5 @@ def logfooter(start, end):
 - __Total Time Taken:__ %s
 ''' % ( datetime.datetime.now().strftime('%x'), 
         start, end, (end-start) )
-    with open(dirc, 'a', encoding='utf-8', newline='\r\n') as f:
+    with open(dirc, 'a', encoding='utf-8', newline='\n') as f:
         f.write(content+'\n')
