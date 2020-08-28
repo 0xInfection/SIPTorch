@@ -28,6 +28,5 @@ def startEngine():
     if not ip:
         log.critical("Invalid target specified, please check your input URL")
     log.debug('Initiating socket connection')
-    sock = connector.sockinit()
     loggerinit()
-    runAll(sock)
+    runAll()

@@ -14,6 +14,7 @@ import random, socket
 from core.config import *
 from core.utils import catMetHead
 from core.requester import parser
+from mutators.replparam import genRandStr
 
 def makeRequest(method, bsbody='', contentlength=None):
     '''
@@ -40,8 +41,10 @@ def makeRequest(method, bsbody='', contentlength=None):
     else: srchost = SRC_HOST
     headers['Via'] = 'SIP/2.0/UDP %s:%s;branch=z9hG4bK-%s;rport' % (srchost, LPORT, branch)
     headers['Max-Forwards'] = 70
-    headers['To'] = TO_ADDR
-    headers['From'] = FROM_ADDR
+    if not (TO_ADDR or FROM_ADDR):
+        senderext = genRandStr(5)
+        headers['To'] = '"%s" <sip:%s@%s>' % (DEF_EXT, DEF_EXT, RHOST)
+        headers['From'] = '"siptorch" <sip:%s@%s>' % (senderext, RHOST)
     # If method is register, we need to modify To, From header fields
     if method == 'REGISTER':
         headers['From'] = '"%s" <sip:%s@%s>' % (extension, extension, RHOST)
@@ -55,7 +58,7 @@ def makeRequest(method, bsbody='', contentlength=None):
     headers['CSeq'] = '%s %s' % (CSEQ, method)
     headers['Content-Length'] = len(body)
     if 'register' not in method.lower():
-        headers['Contact'] = '<sip:%s@%s>' % (DEF_EXT, RHOST)
+        headers['Contact'] = '<sip:%s@%s>' % (senderext, RHOST)
     if CONTENT_TYPE is None and len(body) > 0:
         contenttype = 'application/sdp'
     else: contenttype = CONTENT_TYPE

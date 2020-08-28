@@ -14,7 +14,7 @@ from core.requester.parser import parseResponse
 from core.config import BIND_IFACE, LPORT, TIMEOUT, IP, RPORT
 
 def sockinit():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM | socket.SOCK_NONBLOCK)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.settimeout(TIMEOUT)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     return sock
@@ -43,25 +43,23 @@ def handler(sock):
     except socket.error as err:
         pass
     while True:
-        data, *_ = select.select(rlist, wlist, xlist, 0.005)
+        data, *_ = select.select(rlist, wlist, xlist, TIMEOUT)
         if data:
-            try:
-                buff, src = sock.recvfrom(8192)
-                daff, host, port = parseResponse(buff, src)
-                log.debug("Data received from: %s:%s" % (str(host), str(port)))
-                log.debug("Data: \n%s" % daff)
-                break
-            except socket.error as err:
-                log.error("Target %s errored out: %s" % (str(host), err.__str__()))
-            except socket.timeout as err:
-                log.error('Timeout occured: %s' % err.__str__())
+            buff, src = sock.recvfrom(8192)
+            daff, host, port = parseResponse(buff, src)
+            log.debug("Data received from: %s:%s" % (str(host), str(port)))
+            log.debug("Data: \n%s" % daff)
+            return (daff, host, port)
         else:
             try:
                 buff, src = sock.recvfrom(8192)
                 daff, host, port = parseResponse(buff, src)
                 log.debug("Data received from: %s:%s" % (str(host), str(port)))
                 log.debug("Data: \n%s" % daff)
-                break
+                return (daff, host, port)
             except socket.timeout as err:
-                log.error('Timeout occured: %s' % err.__str__())
-    return (daff, host, port)
+                log.error('Timeout occured when waiting for message: %s' % err.__str__())
+                return ('Generic Timeout Occured - No Response Received', '', '')
+            except socket.error as err:
+                log.error("Target %s errored out: %s" % (str(host), err.__str__()))
+                return ('', '', '')

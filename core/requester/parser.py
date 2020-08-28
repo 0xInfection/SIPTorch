@@ -11,6 +11,7 @@
 
 import socket, logging
 from core.config import RPORT
+from libs.data import RESP_MAP, BAD_RESP
 
 def parseResponse(buff, addr):
     '''
@@ -67,3 +68,14 @@ def lookUp(url: str, typef='ip', port=RPORT):
     except socket.error as err:
         log.critical("Socket errored out with: %s" % err.__str__())
         return
+
+def checkBadResponse(msg: str):
+    '''
+    Check the response received. If the response received is a bad response/waiting response
+    keep waiting for a original message.
+    '''
+    for x in BAD_RESP:
+        st = 'SIP/2.0 %s' % x
+        if msg.startswith(st):
+            return True
+    return False
