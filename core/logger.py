@@ -11,13 +11,7 @@
 
 import datetime
 import os, logging, sys
-from core.config import (
-    OUTPUT_DIR, 
-    RHOST, 
-    IP,
-    RPORT,
-    DEF_EXT
-)
+from core.config import OUTPUT_DIR, RHOST, IP, RPORT, DEF_EXT
 
 def checkDir():
     '''
