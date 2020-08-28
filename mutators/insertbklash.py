@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging, random
-from libs.chars import BACKSLASH_SEQ1, BACKSLASH_SEQ2
+from libs.data import BACKSLASH_SEQ1, BACKSLASH_SEQ2
 
 def insertBkSlash(msg: str):
     '''

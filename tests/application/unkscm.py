@@ -46,10 +46,10 @@ def unkscm():
     mg = catMetHead(mline, head, body=body)
     return mg
 
-def run(sock):
+def run():
     '''
     Run this module by sending the actual request
     '''
     log = logging.getLogger('run')
-    if runPlugin(sock, unkscm(), minfo=module_info):
+    if runPlugin(unkscm(), minfo=module_info):
         log.info('Module %s completed' % module_info['test'])

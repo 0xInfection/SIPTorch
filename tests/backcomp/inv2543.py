@@ -50,10 +50,10 @@ def inv2543():
     mg = catMetHead(mline, head, body=body)
     return mg
 
-def run(sock):
+def run():
     '''
     Run this module by sending the actual request
     '''
     log = logging.getLogger('run')
-    if runPlugin(sock, inv2543(), minfo=module_info):
+    if runPlugin(inv2543(), minfo=module_info):
         log.info('Module %s completed' % module_info['test'])
