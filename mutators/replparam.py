@@ -15,9 +15,18 @@ import logging
 
 hard = 'someval=value'
 
-def genRandStr(length):
-    result = "".join(random.choice(string.ascii_lowercase) for i in range(length))
+def genRandStr(length, allow_digits=False):
+    '''
+    Generates a random string depending on choice
+    '''
+    if not allow_digits:
+        result = "".join(random.choice(
+            string.ascii_lowercase) for i in range(length))
+    else: 
+        result = "".join(random.choice(
+            string.ascii_lowercase + string.digits) for i in range(length))
     return result
+
 
 def replParam(mg: str, hardcoded=False):
     '''

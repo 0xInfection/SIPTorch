@@ -11,18 +11,16 @@
 
 import logging
 from core.config import EXT_HEADERS
-from core.utils import parseMsg, catMetHead
 
-def addRandHeader(msg: str):
+def addRandHeader(head: dict):
     '''
     Add random headers to the default header set
     '''
     log = logging.getLogger('addRandHeader')
-    if not msg:
+    if not head:
         log.error('No message supplied for performing mutation')
         return
     log.info('Applying addRandHeader transformation')
-    mline, head, body = parseMsg(msg)
     # Merging two dicts in
     try:
         # for versions >= 3.5
@@ -30,7 +28,4 @@ def addRandHeader(msg: str):
     except Exception:
         fhead = head.copy()
         fhead.update(EXT_HEADERS)
-    # Reforming the final message
-    log.info("applied transformation")
-    fmsg = catMetHead(mline, fhead, body=body)
-    return fmsg
+    return fhead

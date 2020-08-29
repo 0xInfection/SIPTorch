@@ -10,34 +10,21 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging
+from libs.data import LONGSHORT_MAP
 
-def convshort(header: dict, convrand=False):
+def convShort(header: dict, convrand=False, specific=''):
     '''
     Converts long form of SIP addresses to short
     '''
-    # Lowercase version helps better avoiding false postives
-    mapping = {
-        'accept-contact'    :   'a',
-        'referred-by'       :   'b',
-        'content-type'      :   'c',
-        'content-encoding'  :   'e',
-        'from'              :   'f',
-        'call-id'           :   'i',
-        'supported'         :   'k',
-        'content-length'    :   'l',
-        'contact'           :   'm',
-        'event'             :   'o',
-        'refer-to'          :   'r',
-        'subject'           :   's',
-        'to'                :   't',
-        'allow-events'      :   'u',
-        'via'               :   'v'
-    }
     log = logging.getLogger('convshort')
+    mapping = LONGSHORT_MAP
     log.debug('Converting headers into short form')
     if not header:
         log.error('Nothing available for parsing')
         return
+    if specific:
+        header[mapping[specific.lower()]] = header.pop(specific)
+        return header
     head = header.copy()
     # If the convrand is set to false we convert all headers
     # Leaving the other part for later as now we don't need it.
@@ -48,7 +35,7 @@ def convshort(header: dict, convrand=False):
         for k in head.keys():
             if k.lower() in mapping:
                 header[mapping[k.lower()]] = header.pop(k)
-    return header
+        return header
 
 
 

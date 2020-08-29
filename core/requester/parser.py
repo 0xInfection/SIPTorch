@@ -26,56 +26,36 @@ def parseResponse(buff, addr):
     data = buff.decode('utf-8', 'ignore')
     return (data, str(ip), str(port))
 
-def validateHost(url: str):
-    '''
-    Validating a host to be a proper host and not some random junk string
-    '''
-    log = logging.getLogger('validateHost')
-    log.info('Trying to validate host')
-    try:
-        socket.inet_aton(url)
-        log.info('Input seems to be a IP address')
-        if lookUp(url):
-            return url
-        else:
-            log.critical('Target %s not responding on port %s' % (url, RPORT)) 
-            return
-    except OSError:
-        log.info('The input does not seem to be a IP, must be a domain')
-        ip = lookUp(url, typef='domain')
-        if ip:
-            log.info("%s resolves to %s" % (url, ip))
-            return ip
-        else: return 
 
-def lookUp(url: str, typef='ip', port=RPORT):
+def catMetHead(req: str, headers: dict, body=r''):
     '''
-    Looks up domains and ip for validity
+    Converts a request line, dict of headers, body to a SIP message
     '''
-    log = logging.getLogger('lookUp')
-    # Checking for TCP support, might be useful for future support
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(2)
-        if typef == 'ip':
-            if s.connect_ex((url, port)) == 0:
-                log.info('Valid IP detected')
-                return True
-            else: return
-        else:
-            ip = socket.gethostbyname(url)
-            return ip
-    except socket.error as err:
-        log.critical("Socket errored out with: %s" % err.__str__())
+    if not (req or headers):
         return
+    if '\r\n' not in req:
+        req += '\r\n'
+    for header in headers.items():
+        req += '%s: %s\r\n' % header
+    req += '\r\n'
+    req += body
+    return req
 
-def checkBadResponse(msg: str):
+
+def parseMsg(msg: str):
     '''
-    Check the response received. If the response received is a bad response/waiting response
-    keep waiting for a original message.
+    Parses SIP messages into method line and header dict
     '''
-    for x in BAD_RESP:
-        st = 'SIP/2.0 %s' % x
-        if msg.startswith(st):
-            return True
-    return False
+    log = logging.getLogger('parseMsg')
+    if msg is None:
+        log.error("No message for parsing")
+        return
+    mline, oth = msg.split('\r\n', 1)
+    header, body = oth.split('\r\n\r\n')
+    # Parsing the header into a dict
+    head = dict()
+    h = header.split('\r\n')
+    h = [i.strip() for i in h]
+    for i in h:
+        head[i.split(':', 1)[0]] = i.split(':', 1)[1].strip()
+    return (mline, head, body)
