@@ -70,11 +70,11 @@ def runAll():
     '''
     plugin = pluginbase.PluginBase(package='tests')
     pluginsource = plugin.make_plugin_source(
-        searchpath=[#'./tests/application', 
+        searchpath=['./tests/application', 
                     './tests/backcomp', 
-                    #'./tests/invalid',
-                    #'./tests/parser',
-                    #'./tests/transaction'
+                    './tests/invalid',
+                    './tests/parser',
+                    './tests/transaction'
                 ])
     for plug in pluginsource.list_plugins():
         p = pluginsource.load_plugin(plug)
