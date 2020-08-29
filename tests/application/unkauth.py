@@ -12,7 +12,7 @@
 import logging, random
 from core.requester import buildreq
 from core.plugrun import runPlugin
-from core.utils import parseMsg, catMetHead
+from core.requester.parser import parseMsg, catMetHead
 from mutators.replparam import genRandStr
 
 module_info = {
