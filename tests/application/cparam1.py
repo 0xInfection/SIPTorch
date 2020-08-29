@@ -12,7 +12,7 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.utils import parseMsg, catMetHead
+from core.requester.parser import parseMsg, catMetHead
 
 module_info = {
     'category'  :   'Application Layer Semantics',
