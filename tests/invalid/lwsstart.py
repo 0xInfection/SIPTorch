@@ -13,7 +13,7 @@ import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from mutators.lwsinsert import lwsInsert
-from core.utils import parseMsg, catMetHead
+from core.requester.parser import parseMsg, catMetHead
 
 module_info = {
     'category'  :   'Invalid Messages',
