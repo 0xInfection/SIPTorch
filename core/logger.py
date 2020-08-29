@@ -9,7 +9,7 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
-import datetime
+import datetime, time
 import os, logging, sys
 from core.config import OUTPUT_DIR, RHOST, IP, RPORT, DEF_EXT
 
@@ -79,8 +79,10 @@ def logfooter(start, end):
 - __Date:__ %s
 - __Start Time:__ %s
 - __End Time:__ %s
-- __Total Time Taken:__ %s
-''' % ( datetime.datetime.now().strftime('%x'), 
-        start, end, (end-start) )
+- __Total Time Taken:__ %ss
+''' % ( datetime.datetime.now().strftime('%a, %d %b %Y'), 
+        time.strftime("%H:%M:%S %Z", time.localtime(start)), 
+        time.strftime("%H:%M:%S %Z", time.localtime(end)), 
+        '%.3f' % (end-start) )
     with open(dirc, 'a', encoding='utf-8', newline='\n') as f:
         f.write(content+'\n')
