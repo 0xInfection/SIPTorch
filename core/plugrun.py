@@ -16,7 +16,7 @@ import pluginbase
 from core import config
 from core.logger import logresp
 from core.requester import connector
-from core.requester import parser
+from core.utils import checkBadResponse
 
 def runPlugin(msg: str, minfo: dict):
     '''
@@ -47,7 +47,7 @@ def runPlugin(msg: str, minfo: dict):
 ```''' % (minfo['test'], minfo['category'], minfo['id'], msg.strip(), data.strip())
             logresp(logdata)
         # We wait for more data
-        if parser.checkBadResponse(data):
+        if checkBadResponse(data):
             data, *_ = connector.handler(sock)
             log.debug('\nRequest: %s\nResponse: %s' % (msg, data))
             if config.LOG_FILE:
@@ -70,11 +70,11 @@ def runAll():
     '''
     plugin = pluginbase.PluginBase(package='tests')
     pluginsource = plugin.make_plugin_source(
-        searchpath=['./tests/application', 
+        searchpath=[#'./tests/application', 
                     './tests/backcomp', 
-                    './tests/invalid',
+                    #'./tests/invalid',
                     #'./tests/parser',
-                    './tests/transaction'
+                    #'./tests/transaction'
                 ])
     for plug in pluginsource.list_plugins():
         p = pluginsource.load_plugin(plug)

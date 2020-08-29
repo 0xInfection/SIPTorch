@@ -12,8 +12,8 @@
 import logging
 import random, socket
 from core.config import *
-from core.utils import catMetHead
-from core.requester import parser
+from core.utils import validateHost
+from core.requester.parser import catMetHead
 from mutators.replparam import genRandStr
 
 def makeRequest(method, bsbody='', contentlength=None):
@@ -26,7 +26,7 @@ def makeRequest(method, bsbody='', contentlength=None):
     body = ''
     if not SRC_HOST:
         srchost = socket.gethostbyname(socket.gethostname())
-    dsthost = IP if IP else parser.validateHost(RHOST)
+    dsthost = IP if IP else validateHost(RHOST)
     if 'invite' in method.lower():
         body = INVITE_BODY
         body = body.replace('x.x.x.x', srchost).replace('y.y.y.y', dsthost)

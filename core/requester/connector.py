@@ -59,7 +59,7 @@ def handler(sock):
                 return (daff, host, port)
             except socket.timeout as err:
                 log.error('Timeout occured when waiting for message: %s' % err.__str__())
-                return ('Generic Timeout Occured - No Response Received', '', '')
+                return ('Generic Timeout Occured - No Response Received\nInvestigate your server logs.', '', '')
             except socket.error as err:
                 log.error("Target %s errored out: %s" % (str(host), err.__str__()))
                 return ('Error Enountered: %s' % err.__str__(), '', '')

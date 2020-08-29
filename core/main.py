@@ -14,8 +14,9 @@ import socket
 import logging
 from core import config
 from core.plugrun import runAll
+from core.utils import validateHost
+from core.requester import connector
 from core.logger import loggerinit, logfooter
-from core.requester import parser, connector
 
 def startEngine():
     '''
@@ -25,7 +26,7 @@ def startEngine():
     log = logging.getLogger('main')
     timestart = time.time()
     log.info('Testing target')
-    ip = parser.validateHost(config.RHOST)
+    ip = validateHost(config.RHOST)
     config.IP = ip
     if not ip:
         log.critical("Invalid target specified, please check your input URL")
@@ -34,5 +35,5 @@ def startEngine():
     runAll()
     log.info('All modules completed.')
     timeend = time.time()
-    log.info('Total time taken: %ss' % (timeend - timestart))
+    log.info('Total time taken: %.3fs' % (timeend - timestart))
     logfooter(timestart, timeend)
