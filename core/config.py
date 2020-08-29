@@ -66,6 +66,14 @@ EXT_HEADERS = {
     r'NewFangledHeader'                 :   r'''   newfangled value\r\ncontinued newfangled value''',
 }
 
+# Identity header to be used for specific tests only
+IDENTITY = r'eyJhbGciOiJFUzI1NiIsInR5cCI6InBhc3Nwb3J0IiwieDV1I'
+IDENTITY += r'joiaHR0cHM6Ly9jZXJ0LmV4YW1wbGUub3JnL3Bhc3Nwb3J0LmNlciJ9.eyJ'
+IDENTITY += r'kZXN0Ijp7InVyaSI6WyJzaXA6YWxpY2VAZXhhbXBsZS5jb20iXX0sImlhdC'
+IDENTITY += r'I6IjE0NDMyMDgzNDUiLCJvcmlnIjp7InRuIjoiMTIxNTU1NTEyMTIifX0.r' 
+IDENTITY += r'q3pjT1hoRwakEGjHCnWSwUnshd0-zJ6F1VOgFWSjHBr8Qjpjlk-cpFYpFYs'
+IDENTITY += r'ojNCpTzO3QfPOlckGaS6hEck7w;info=<https://biloxi.example.org/biloxi.cert>'
+
 # Invite body to use
 INVITE_BODY = '''v=0\r\no=mhandley 29739 7272939 IN IP4 x.x.x.x\r\ns=-\r\nc=IN IP4 y.y.y.y\r\nt=0 0\r\nm=audio 49217 RTP/AVP 0 12\r\nm=video 3227 RTP/AVP 31\r\na=rtpmap:31 LPC'''
 
