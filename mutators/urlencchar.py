@@ -11,11 +11,11 @@
 
 import logging
 import random
-from libs.data import URL_MAP
+from libs.data import URL_MAP, SCHAR_MAP
 
-def urlEncodeStr(st: str, randomchoice=True, value=3):
+def urlEncodeStrInvalid(st: str, randomchoice=True, value=3):
     '''
-    Add random headers to the default header set
+    Add random URL obfuscations to the a string, illegally
     st: string to process
     randomchoice: whether to randomly encode or not
     value: how many chars to encode/change
@@ -30,6 +30,17 @@ def urlEncodeStr(st: str, randomchoice=True, value=3):
             wordlist[x] = URL_MAP[wordlist[x]]
     # Join up now
     return ''.join(wordlist)
+
+
+def urlEncodeStrValid(st: str):
+    '''
+    Add URL obfuscations to the string, legally where it is allowed
+    '''
+    wdlist = list(st)
+    for x in range(len(wdlist)):
+        wdlist[x] = SCHAR_MAP[wdlist[x]]
+    return ''.join(wdlist)
+
 
 def urlEncodeChar(ch: str):
     '''
