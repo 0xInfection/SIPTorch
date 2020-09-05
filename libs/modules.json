@@ -1,0 +1,60 @@
+{
+    "Application Layer Semantics": [
+        "200 OK Response with Broadcast Via Header Field Value",
+        "REGISTER with a Contact Header Parameter",
+        "REGISTER with a URL in Contact Header Parameter",
+        "INVITE Message Missing Required Header Fields",
+        "Unknown/Invalid Content Type",
+        "Invalid/Unacceptable Accept Offering",
+        "Zero Value in Max-Forwards Header",
+        "OPTIONS with Multiple Content-Length Values",
+        "Multiple Values in Single Value Required Fields",
+        "Request-URI with Known but Atypical Scheme",
+        "REGISTER with a URL Escaped Header",
+        "OPTIONS With Unknown Proxy-Require and Require Scheme",
+        "Unknown/Invalid Authorization Scheme",
+        "OPTIONS Request URI with Unknown Scheme",
+        "Unknown Request URI with Unknown Scheme in Header Fields"
+    ],
+    "Backward Compatability Tests": [
+        "INVITE With RFC 2543 Syntax Support"
+    ],
+    "Invalid Messages": [
+        "Invalid Time Zone in Date Header Field",
+        "Unterminated Quoted String in Display Names",
+        "Response with Overlarge Status Code",
+        "Content Length Larger Than Message",
+        "Request Method with CSeq Method Mismatch",
+        "Escaped Headers in SIP Request-URI",
+        "Extraneous Header Field Separators",
+        "Negative Content-Length",
+        "Non-token Characters in Display Name",
+        "</> Enclosing Request-URI",
+        "Multiple Space Separating Request-Line Elements",
+        "Malformed SIP Request-URI with Embedded LWS",
+        "Unknown Method with CSeq Method Mismatch",
+        "Negative Content-Length",
+        "Failure to Enclose name-addr URI in <>",
+        "Request Scalar Fields with Overlarge Values",
+        "Response Scalar Fields with Overlarge Values",
+        "Spaces Within Address Specification",
+        "Escaped Headers in SIP Request-URI",
+        "Unknown Protocol Version"
+    ],
+    "Syntactical Parser Tests": [
+        "Extra Trailing Octets in a UDP Datagram",
+        "Use of \"%\" When It Is Not an Escape",
+        "Escaped Nulls in URIs",
+        "Valid Use of the % Escaping Mechanism",
+        "Long Values in Header Fields",
+        "Message with No LWS between Display Name and <",
+        "Multipart MIME Message",
+        "Content Length Larger Than Message",
+        "Semicolon-Separated Parameters in URI User Part",
+        "Varied and Unknown Transport Types",
+        "Unusual Reason Phrase"
+    ],
+    "Transaction Layer Semantics": [
+        "Branch Tag Missing Transaction Identifier"
+    ]
+}
