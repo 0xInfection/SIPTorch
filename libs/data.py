@@ -9,6 +9,9 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
+VERSION = '0.1.0'
+LICENSE = 'GNU General Public License v3 (GPLv3)'
+
 # Whitespace chars
 TAB = r"	"
 WS = r" "
