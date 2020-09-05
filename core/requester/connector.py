@@ -19,6 +19,7 @@ def sockinit():
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     return sock
 
+
 def sendreq(sock, data):
     '''
     Sends the request to the server
@@ -28,6 +29,7 @@ def sendreq(sock, data):
         # SIP RFC states the default serialized encoding is utf-8
         bytes_sent = sock.sendto(bytes(data[:8192], 'utf-8'), dst)
         data = data[bytes_sent:]
+
 
 def handler(sock):
     log = logging.getLogger('handler')
@@ -48,17 +50,15 @@ def handler(sock):
             buff, src = sock.recvfrom(8192)
             daff, host, port = parseResponse(buff, src)
             log.debug("Data received from: %s:%s" % (str(host), str(port)))
-            log.debug("Data: \n%s" % daff)
             return (daff, host, port)
         else:
             try:
                 buff, src = sock.recvfrom(8192)
                 daff, host, port = parseResponse(buff, src)
                 log.debug("Data received from: %s:%s" % (str(host), str(port)))
-                log.debug("Data: \n%s" % daff)
                 return (daff, host, port)
-            except socket.timeout as err:
-                log.error('Timeout occured when waiting for message: %s' % err.__str__())
+            except socket.timeout:
+                log.error('Timeout occured when waiting for message')
                 return ('Generic Timeout Occured - No Response Received\nInvestigate your server logs.', '', '')
             except socket.error as err:
                 log.error("Target %s errored out: %s" % (str(host), err.__str__()))
