@@ -11,7 +11,41 @@
 
 import datetime, time
 import os, logging, sys
+from core.colors import C, R, G
 from core.config import OUTPUT_DIR, RHOST, IP, RPORT, DEF_EXT
+
+class CustomFormatter(logging.Formatter):
+    '''
+    Customising my style of logging the results
+    '''
+    err_fmt  = R+" ERROR: %(msg)s"
+    crt_fmt  = R+" CRITICAL: %(msg)s"
+    dbg_fmt  = C+" DEBUG: %(module)s: %(msg)s"
+    info_fmt = G+" %(msg)s"
+
+    def __init__(self):
+        super().__init__(fmt="%(levelno)d: %(msg)s", datefmt=None, style='%')  
+    
+    def format(self, record):
+
+        format_orig = self._style._fmt
+
+        if record.levelno == logging.DEBUG:
+            self._style._fmt = CustomFormatter.dbg_fmt
+
+        elif record.levelno == logging.INFO:
+            self._style._fmt = CustomFormatter.info_fmt
+
+        elif record.levelno == logging.ERROR:
+            self._style._fmt = CustomFormatter.err_fmt
+
+        elif record.levelno == logging.CRITICAL:
+            self._style._fmt = CustomFormatter.crt_fmt
+
+        result = logging.Formatter.format(self, record)
+        self._style._fmt = format_orig
+
+        return result
 
 def checkDir():
     '''
@@ -35,7 +69,11 @@ def checkDir():
         return dirc
     if os.path.exists(dirc+host+'.md'):
         log.critical('Report for this site already exists')
-        sys.exit('Exiting...')
+        s = input(C+' Run tests again? (Y/n) :> ')
+        if not s or s.lower() == 'y':
+            pass
+        else:
+            sys.exit('Exiting...')
     return dirc
 
 global dirc
@@ -58,6 +96,7 @@ def loggerinit():
     # Creating the file now
     with open(dirc, 'w+', encoding='utf-8', newline='\n') as f:
         f.write(s)
+    return
 
 
 def logresp(content):
