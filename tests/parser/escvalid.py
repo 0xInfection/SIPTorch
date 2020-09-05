@@ -40,10 +40,10 @@ def escvalid():
     '''
     log = logging.getLogger('escvalid')
     log.info('Testing module: %s' % module_info['test'])
-    msg = buildreq.makeRequest('REGISTER')
+    msg = buildreq.makeRequest('INVITE')
     mline, head, body = parseMsg(msg)
     # Tweak 1: Modify the user part
-    user = re.search(r'(sip:\w+?@\w+?\.\w+?)\s', mline, re.I).group(1)
+    user = re.search(r'(sip:\w+?@[\w\.]+?)\s', mline, re.I).group(1)
     user = urlEncodeStrValid(user)
     # Now replace the grep inside the method
     mline = re.sub(r'sip:\w+@', 'sip:%s@' % user, mline)
