@@ -41,8 +41,8 @@ def escinv():
     newmeth = '%s%s' % ('R', newmeth)
     mline = mline.replace(mline.split(' ')[0], newmeth)
     # Tweak 2: Modify the to and from headers
-    head['To'] = re.sub(r'"\w+?"', '"%Z%45"', head.get('To'))
-    head['From'] = re.sub(r'"\w+?"', '"%Z%45"', head.get('From'))
+    head['To'] = re.sub(r'\"\w+?\"', '"%Z%45"', head.get('To'))
+    head['From'] = re.sub(r'\"\w+?\"', '"%Z%45"', head.get('From'))
     # Tweak 3: Change the Cseq header
     head['CSeq'] = '%s %s' % (head.get('CSeq').split(' ')[0], newmeth)
     # Tweak 4: Change a contact header
