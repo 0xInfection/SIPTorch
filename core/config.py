@@ -13,9 +13,9 @@
 # during the SIP torture tests
 
 # Test URL to be tested, pass a domain here
-RHOST = 'demo.sipvicious.pro'
+RHOST = ''
 # Pass the IP here
-IP = '172.104.142.43'
+IP = ''
 
 # Target port to use
 RPORT = 5060
@@ -31,6 +31,8 @@ STATIC_CID = False
 # If you're using a static call id put it here
 CALL_ID = None
 
+# WARNING: Changing from/to headers might break some tests
+# Format should be -> "name" ext@(site|IP).tld
 # From address to use
 FROM_ADDR = ''
 # Embed a static from tag here if you want it to be static
@@ -100,6 +102,9 @@ DEF_HSET = {
 # Timeout to use
 TIMEOUT = 3
 
+# Delay between requests
+DELAY = 0
+
 # Binding interface to use
 BIND_IFACE = 'any'
 
@@ -108,3 +113,9 @@ LOG_FILE = True
 
 # Default output directory to use
 OUTPUT_DIR = './siptorch-output/'
+
+# Spoof User-Agents
+SPOOF_UA = False
+
+# Debug level
+DEBUG_LEVEL = 30
