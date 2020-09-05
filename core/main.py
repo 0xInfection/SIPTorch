@@ -13,27 +13,26 @@ import time
 import socket
 import logging
 from core import config
+from core.options import *
 from core.plugrun import runAll
-from core.utils import validateHost
+from core.colors import G
+from core.utils import calcLogLevel
 from core.requester import connector
-from core.logger import loggerinit, logfooter
+from core.logger import loggerinit, logfooter, CustomFormatter
 
 def startEngine():
     '''
     The main stuff
     '''
-    logging.basicConfig(level=logging.INFO)
-    log = logging.getLogger('main')
+    formatter = CustomFormatter()
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setFormatter(fmt=formatter)
+    logging.root.addHandler(hdlr=handler)
+    logging.root.setLevel(level=calcLogLevel(args))
     timestart = time.time()
-    log.info('Testing target')
-    ip = validateHost(config.RHOST)
-    config.IP = ip
-    if not ip:
-        log.critical("Invalid target specified, please check your input URL")
-    log.debug('Initiating socket connection')
     loggerinit()
     runAll()
-    log.info('All modules completed.')
+    print(G, 'All modules completed.')
     timeend = time.time()
-    log.info('Total time taken: %.3fs' % (timeend - timestart))
+    print(G, 'Total time taken: %.3fs' % (timeend - timestart))
     logfooter(timestart, timeend)
