@@ -14,7 +14,7 @@ import socket
 import random
 import logging
 from libs.data import BAD_RESP
-from core.config import RPORT
+from core.config import RPORT, DEBUG_LEVEL
 
 def genCombinations(lst, LW_CONST=3, UP_CONST=7):
     '''
@@ -114,3 +114,18 @@ def fileWriter(f, test, addr, data):
         xwrt.write('[+] Address: %s:%s' % (str(host), str(port)))
         xwrt.write('[+] Response: \n%s' % data.decode('utf-8', 'ignore'))
     log.debug("Successfully written to %s" % f)
+
+
+def calcLogLevel(args):
+    '''
+    Calculate logging level based on verbose options
+    '''
+    baseloglevel = DEBUG_LEVEL
+    if args.verbose is not None:
+        if args.verbose >= 3:
+            baseloglevel = 10
+        else:
+            baseloglevel = 30 - (args.verbose * 10)
+    if args.quiet:
+        baseloglevel = 50
+    return baseloglevel
