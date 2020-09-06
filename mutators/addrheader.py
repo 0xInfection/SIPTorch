@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging
-from core.config import EXT_HEADERS
+from libs.config import EXT_HEADERS
 
 def addRandHeader(head: dict):
     '''
