@@ -9,11 +9,11 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
+from libs import config
 import logging, socket, random
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from core.requester.parser import parseMsg, catMetHead
-from core.config import LPORT, SRC_HOST, BRANCH
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -41,19 +41,19 @@ def transports():
     # lowercase to form different headers, since headers are 
     # case-insensitive as mentioned in the RFC
     srchost = socket.gethostbyname(
-        socket.gethostname()) if not SRC_HOST else SRC_HOST
+        socket.gethostname()) if not config.SRC_HOST else config.SRC_HOST
     # Add udp as transport method in via header
     head['via'] = 'SIP/2.0/TCP %s:%s;branch=z9hG4bK-%s;rport' % \
-        (srchost, LPORT, random.getrandbits(32))
+        (srchost, config.LPORT, random.getrandbits(32))
     # Add unknown type as transport method in via header
     head['VIa'] = 'SIP/2.0/UNKNOWN %s:%s;branch=z9hG4bK-%s;rport' % \
-        (srchost, LPORT, random.getrandbits(32))
+        (srchost, config.LPORT, random.getrandbits(32))
     # Add tls as transport method in via header
     head['vIA'] = 'SIP/2.0/TLS %s:%s;branch=z9hG4bK-%s;rport' % \
-        (srchost, LPORT, random.getrandbits(32))
+        (srchost, config.LPORT, random.getrandbits(32))
     # Add sctp as transport method in via header
     head['vIa'] = 'SIP/2.0/SCTP %s:%s;branch=z9hG4bK-%s;rport' % \
-        (srchost, LPORT, random.getrandbits(32))
+        (srchost, config.LPORT, random.getrandbits(32))
     # Forming the message up back again
     mg = catMetHead(mline, head, body=body)
     return mg
