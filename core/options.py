@@ -12,10 +12,10 @@
 import os, sys
 import logging
 import argparse
-from core import config
+from libs import config
 from core.plugrun import runAll
-from core.colors import color, G, O
 from core.utils import validateHost
+from core.colors import color, G, O, R
 from libs.data import VERSION as __version__
 from libs.data import LICENSE as __license__
 
@@ -33,7 +33,7 @@ required = parser.add_argument_group('Required Arguments')
 optional = parser.add_argument_group('Optional Arguments')
 
 # Required arguments
-required.add_argument('-u', '--target', help='Destination target to test', dest='target')
+required.add_argument('-u', '--target', help='Destination target to test', dest='target', type=str)
 
 # Optional arguments
 optional.add_argument('-o', '--output',
@@ -76,14 +76,18 @@ if args.build_cache:
 if args.user_agent:
     config.USER_AGENT = args.user_agent
 
-if args.target:
-    config.RHOST = args.target
-    log.info('Testing target')
-    ip = validateHost(config.RHOST)
-    if not ip:
-        log.critical("Invalid target specified, please check your input")
+if not (args.version and args.build_cache):
+    if args.target:
+        config.RHOST = args.target
+        log.info('Testing target')
+        ip = validateHost(config.RHOST)
+        if not ip:
+            log.fatal("Invalid target specified, please check your input")
+            sys.exit(1)
+        config.IP = ip
+    else:
+        log.fatal('You must specify a target via the -u/--url argument')
         sys.exit(1)
-    config.IP = ip
 
 if args.delay:
     config.DELAY = args.delay
@@ -92,10 +96,10 @@ if args.timeout:
     config.TIMEOUT = args.timeout
 
 if args.output:
-    if os.path.exists(args.output):
+    if os.path.isdir(args.output):
         config.OUTPUT_DIR = args.output
     else:
-        log.critical("Invalid output directory, please specify a correct path.")
+        log.fatal("Invalid output directory, please specify a correct path.")
         sys.exit(1)
 
 if args.spoof_ua:
