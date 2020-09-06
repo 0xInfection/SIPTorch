@@ -47,7 +47,7 @@ def unkauth():
     msg = buildreq.makeRequest('REGISTER')
     mline, head, body = parseMsg(msg)
     # Tweak 1: Add invalid auth scheme
-    head['Authorization'] = '%s %s' % (genRandStr, 'randparam-data=valuehere')
+    head['Authorization'] = '%s %s' % (genRandStr(15), 'randparam-data=valuehere')
     mg = catMetHead(mline, head, body=body)
     return mg
 
