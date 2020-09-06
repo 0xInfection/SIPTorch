@@ -33,10 +33,10 @@ def runPlugin(msg: str, minfo: dict):
     print(GR, 'Running test: %s%s%s' % (color.ORANGE, minfo['test'], color.END))
     log.debug("Sending the request")
     try:
-        log.debug('\nRequest: %s' % msg)
+        log.debug('\n%sRequest:%s %s' % (color.RED, color.END, msg.strip()))
         connector.sendreq(sock, msg)
         data, *_ = connector.handler(sock)
-        log.debug('\nResponse: %s' % data.strip())
+        log.debug('\n%sResponse:%s %s' % (color.RED, color.END, data.strip()))
         if config.LOG_FILE:
             log.debug('Logging data to file')
             logdata = '''
@@ -55,7 +55,7 @@ def runPlugin(msg: str, minfo: dict):
         # We wait for more data
         if checkBadResponse(data):
             data, *_ = connector.handler(sock)
-            log.debug('\nResponse: %s' % data.strip())
+            log.debug('\n%sResponse:%s %s' % (color.RED, color.END, data.strip()))
             if config.LOG_FILE:
                 log.debug('Logging data to file')
                 logdata = '''- Response Received Later:

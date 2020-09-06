@@ -20,10 +20,10 @@ class CustomFormatter(logging.Formatter):
     Customising my style of logging the results
     '''
     ftl_fmt  = R+" FATAL: %(msg)s"
-    err_fmt  = R+" ERROR: %(msg)s"
-    crt_fmt  = R+" CRITICAL: %(msg)s"
-    dbg_fmt  = C+" DEBUG: %(module)s: %(msg)s"
     info_fmt = G+" %(msg)s"
+    err_fmt  = color.RED+"[-] ERROR: "+color.END+"%(msg)s"
+    crt_fmt  = color.RED+"[-] CRITICAL: "+color.END+"%(msg)s"
+    dbg_fmt  = color.CYAN+"[~] DEBUG: "+color.END+"%(module)s: %(msg)s"
 
     def __init__(self):
         super().__init__(fmt="%(levelno)d: %(msg)s", datefmt=None, style='%')  
