@@ -82,16 +82,16 @@ def buildcache(pluginlist):
         'Syntactical Parser Tests',
         'Transaction Layer Semantics'
     ]
-    gl = dict()
+    memmap = dict()
     for x in lists:
-        l = list()
+        appender = list()
         for plug in pluginlist.list_plugins():
-            g = pluginlist.load_plugin(plug)
-            if g.module_info['category'] == x:
-                l.append(g.module_info['test'])
-        gl[x] = l
+            loader = pluginlist.load_plugin(plug)
+            if loader.module_info['category'] == x:
+                appender.append(loader.module_info['test'])
+        memmap[x] = appender
     with open('libs/modules.json', 'w+') as wf:
-        json.dump(gl, wf, indent=4)
+        json.dump(memmap, wf, indent=4)
 
 
 def runAll(options=None):
