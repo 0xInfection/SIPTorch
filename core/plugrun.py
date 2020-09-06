@@ -15,7 +15,7 @@ import json
 import socket
 import logging
 import pluginbase
-from core import config
+from libs import config
 from core.logger import logresp
 from core.colors import color, G, GR
 from core.requester import connector
@@ -33,8 +33,10 @@ def runPlugin(msg: str, minfo: dict):
     print(GR, 'Running test: %s%s%s' % (color.ORANGE, minfo['test'], color.END))
     log.debug("Sending the request")
     try:
+        log.debug('\nRequest: %s' % msg)
         connector.sendreq(sock, msg)
         data, *_ = connector.handler(sock)
+        log.debug('\nResponse: %s' % data.strip())
         if config.LOG_FILE:
             log.debug('Logging data to file')
             logdata = '''
@@ -53,7 +55,7 @@ def runPlugin(msg: str, minfo: dict):
         # We wait for more data
         if checkBadResponse(data):
             data, *_ = connector.handler(sock)
-            log.debug('\nRequest: %s\n\nResponse: %s' % (msg, data))
+            log.debug('\nResponse: %s' % data.strip())
             if config.LOG_FILE:
                 log.debug('Logging data to file')
                 logdata = '''- Response Received Later:
@@ -106,12 +108,9 @@ def runAll(options=None):
                     './tests/parser',
                     './tests/transaction'
                 ])
-    try:
-        if options.build_cache:
-            buildcache(pluginsource)  # <- Uncomment this line to build cache
-            return
-    except AttributeError:
-        pass
+    if options is not None and options.build_cache:
+        buildcache(pluginsource)  # <- Uncomment this line to build cache
+        return
     for plug in pluginsource.list_plugins():
         p = pluginsource.load_plugin(plug)
         p.run()
