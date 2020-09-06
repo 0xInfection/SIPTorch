@@ -10,9 +10,9 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging, random
+from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.config import RHOST, DEF_EXT
 from core.requester.parser import parseMsg, catMetHead
 from mutators.replparam import rmallParam, rmspcParam
 
@@ -44,9 +44,9 @@ def invdisp():
     mline, head, body = parseMsg(msg)
     # Tweak 1: Modify add untokenized header display names
     head['From'] = '%s, %s <sip:%s@%s>;tag=%s' % (
-        'siptorch', 'testing', DEF_EXT, RHOST, random.getrandbits(32))
+        'siptorch', 'testing', config.DEF_EXT, config.RHOST, random.getrandbits(32))
     head['To'] = '%s, %s, %s <sip:%s@%s>' % (
-            'server', "shouldn't", 'break', DEF_EXT, RHOST)
+            'server', "shouldn't", 'break', config.DEF_EXT, config.RHOST)
     mg = catMetHead(mline, head, body=body)
     return mg
 
