@@ -10,7 +10,6 @@
 # https://github.com/0xInfection/SIPTorch
 
 import socket, logging
-from core.config import RPORT
 from libs.data import RESP_MAP, BAD_RESP
 
 def parseResponse(buff, addr):
