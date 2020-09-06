@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging, random
-from core.config import RHOST
+from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from core.requester.parser import parseMsg, catMetHead
@@ -41,8 +41,8 @@ def multireq():
     # forwards, cseq headers
     head['call-id'] = random.getrandbits(80)
     head['cseq'] = '600 INVITE'
-    head['to'] = 'sip:6969@%s' % RHOST
-    head['from'] = 'sip:2020@%s;tag=%s' % (RHOST, random.getrandbits(32))
+    head['to'] = 'sip:6969@%s' % config.RHOST
+    head['from'] = 'sip:2020@%s;tag=%s' % (config.RHOST, random.getrandbits(32))
     head['max-forwards'] = '5'
     # Recompiling our message
     mg = catMetHead(mline, head, body=body)
