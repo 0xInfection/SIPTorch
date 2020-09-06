@@ -100,7 +100,7 @@ DEF_HSET = {
 }
 
 # Timeout to use
-TIMEOUT = 3
+TIMEOUT = 5
 
 # Delay between requests
 DELAY = 0
