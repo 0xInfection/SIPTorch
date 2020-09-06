@@ -13,8 +13,8 @@ import sys
 import socket
 import random
 import logging
+from libs import config
 from libs.data import BAD_RESP
-from core.config import RPORT, DEBUG_LEVEL
 
 def genCombinations(lst, LW_CONST=3, UP_CONST=7):
     '''
@@ -57,7 +57,7 @@ def validateHost(url: str):
         if lookUp(url):
             return url
         else:
-            log.critical('Target %s not responding on port %s' % (url, RPORT)) 
+            log.critical('Target %s not responding on port %s' % (url, config.RPORT)) 
             return
     except OSError:
         log.info('The input does not seem to be a IP, must be a domain')
@@ -68,7 +68,7 @@ def validateHost(url: str):
         else: return 
 
 
-def lookUp(url: str, typef='ip', port=RPORT):
+def lookUp(url: str, typef='ip', port=config.RPORT):
     '''
     Looks up domains and ip for validity
     '''
@@ -120,7 +120,7 @@ def calcLogLevel(args):
     '''
     Calculate logging level based on verbose options
     '''
-    baseloglevel = DEBUG_LEVEL
+    baseloglevel = config.DEBUG_LEVEL
     if args.verbose is not None:
         if args.verbose >= 3:
             baseloglevel = 10
