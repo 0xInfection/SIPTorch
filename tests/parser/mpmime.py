@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging
-from core.config import IDENTITY
+from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from core.requester.parser import parseMsg, catMetHead
@@ -57,7 +57,7 @@ def mpmime():
     # Tweak 1: Add a route header
     head['Route'] = '<sip:127.0.0.1:5080>'
     # Tweak 2; Add the identity header
-    head['Identity'] = IDENTITY
+    head['Identity'] = config.IDENTITY
     # Tweak 3: Add cte header to binary
     head['Content-Transfer-Encoding'] = 'binary'
     # Tweak 4: Add multipart/mixed to content type

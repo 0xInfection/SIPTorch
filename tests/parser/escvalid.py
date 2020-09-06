@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging, re, random
-from core.config import RHOST
+from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from mutators.urlencchar import urlEncodeStrValid
@@ -49,14 +49,14 @@ def escvalid():
     mline = re.sub(r'sip:\w+@', 'sip:%s@' % user, mline)
     # Tweak 2: Modify the to and from headers
     head['To'] = 'sip:%s@%s' % (
-        urlEncodeStrInvalid('user', value=2), RHOST)
+        urlEncodeStrInvalid('user', value=2), config.RHOST)
     head['From'] = '<sip:%s@%s>;tag=%s' % (
         urlEncodeStrValid('I have spaces in user name'), 
-        RHOST, random.getrandbits(32))
+        config.RHOST, random.getrandbits(32))
     # Tweak 3: modify the contact header
     head['Contact'] = '<sip:%s@%s;%s;%s=%s%s>' % (
         urlEncodeStrInvalid('caller', value=1),
-        RHOST, urlEncodeStrInvalid('lr', value=2),
+        config.RHOST, urlEncodeStrInvalid('lr', value=2),
         urlEncodeStrInvalid('name', value=1),
         urlEncodeStrInvalid('value', value=2),
         r'%25%34%31'

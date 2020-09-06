@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging
-from core.config import RHOST
+from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from mutators.multihead import multiHead
@@ -40,7 +40,7 @@ def longreq():
     head['To'] += ";longparam%s=shortvalue" % ('name'*25)
     head['To'] += "very%sparamwithnovalueatall" % ('long'*25)
     # Tweak 2: Such long From Value
-    head['From'] = 'sip:%s@%s' % (('soverylongusernameOOF'*5), RHOST)
+    head['From'] = 'sip:%s@%s' % (('soverylongusernameOOF'*5), config.RHOST)
     head['From'] += ';tag=10%s420' % ('789'*50)
     head['From'] += ';unknownheadparam%sname=some%shere' % (
             ('awkwardlylong'*10), ('verylong'*10))
@@ -48,7 +48,7 @@ def longreq():
     # Tweak 3: add call id
     head['Call-ID'] = 'longreq.one%slongcallidhere' % ('damnlong'*10)
     # Tweak 4: add contact
-    head['Contact'] = '<sip:%s@%s>' % (('toolongtohandle'*10), RHOST)
+    head['Contact'] = '<sip:%s@%s>' % (('toolongtohandle'*10), config.RHOST)
     # Tweak 5: add unknown value
     head['Unknown-L%sng-Field' % ('o'*75)] = '%s;%s=%s' % (
         'unknown-%s-value' % ('long'*20),
