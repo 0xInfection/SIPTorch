@@ -11,13 +11,15 @@
 
 import datetime, time
 import os, logging, sys
-from core.colors import C, R, G
-from core.config import OUTPUT_DIR, RHOST, IP, RPORT, DEF_EXT
+from libs import config
+from core.colors import C, R, G, color
+from core.requester.parser import parseMsg, catMetHead
 
 class CustomFormatter(logging.Formatter):
     '''
     Customising my style of logging the results
     '''
+    ftl_fmt  = R+" FATAL: %(msg)s"
     err_fmt  = R+" ERROR: %(msg)s"
     crt_fmt  = R+" CRITICAL: %(msg)s"
     dbg_fmt  = C+" DEBUG: %(module)s: %(msg)s"
@@ -42,22 +44,24 @@ class CustomFormatter(logging.Formatter):
         elif record.levelno == logging.CRITICAL:
             self._style._fmt = CustomFormatter.crt_fmt
 
+        elif record.levelno == logging.FATAL:
+            self._style._fmt = CustomFormatter.ftl_fmt
+
         result = logging.Formatter.format(self, record)
         self._style._fmt = format_orig
 
         return result
 
-def checkDir():
+
+def checkDir(hst: str):
     '''
     Check if directories are present and create 
     the output locations
     '''
     global host
-    host = RHOST
-    if not RHOST:
-        host = IP
+    host = hst
     log = logging.getLogger('checkDir')
-    dirc = OUTPUT_DIR
+    dirc = config.OUTPUT_DIR
     if not dirc.endswith('/'):
         dirc += '/'
     try:
@@ -67,22 +71,14 @@ def checkDir():
     except FileExistsError:
         log.error('Directory %s already exists' % dirc)
         return dirc
-    if os.path.exists(dirc+host+'.md'):
-        log.critical('Report for this site already exists')
-        s = input(C+' Run tests again? (Y/n) :> ')
-        if not s or s.lower() == 'y':
-            pass
-        else:
-            sys.exit('Exiting...')
     return dirc
 
-global dirc
-dirc = checkDir() + host + '.md'
-
-def loggerinit():
+def loggerinit(host: str):
     '''
     Module to get stuff together
     '''
+    global dirc
+    dirc = checkDir(host) + host + '.md'
     s = '''# SIPTorch Report
 
 ## Target Specifications:
@@ -92,14 +88,14 @@ def loggerinit():
 - __Extension:__ %s
 
 ## Tests:
-    ''' % (RHOST, IP, RPORT, DEF_EXT)
+    ''' % (host, config.IP, config.RPORT, config.DEF_EXT)
     # Creating the file now
     with open(dirc, 'w+', encoding='utf-8', newline='\n') as f:
         f.write(s)
-    return
+    return None
 
 
-def logresp(content):
+def logresp(content: str):
     '''
     Log response to a file 
     '''
@@ -109,6 +105,20 @@ def logresp(content):
             f.write(content+'\n')
     except Exception as e:
         log.error("Error: %s" % e.__str__())
+
+
+def prheaders(msg: str):
+    '''
+    Display headers properly
+    '''
+    mline, head, body = parseMsg(msg)
+    s = color.GREY + '%s '.join(mline.split(' ')) % (color.RED, color.ORANGE)
+    for k, v in head.items():
+        s += '%s%s: %s%s\n' % (color.CYAN, k, color.END, v.strip())
+    if body:
+        s += '\n%s%s' % (color.PURPLE, body)
+    return s
+
 
 def logfooter(start, end):
     '''
