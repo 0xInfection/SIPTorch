@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 import logging
-from core.config import IP, RPORT
+from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from core.requester.parser import parseMsg, catMetHead
@@ -39,7 +39,7 @@ def novelscm():
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
     mline, head, body = parseMsg(msg)
-    requri = 'beep.boop://%s:%s' % (IP, RPORT)
+    requri = 'beep.boop://%s:%s' % (config.IP, config.RPORT)
     # Tweak 1: Remove the following required headers
     mline = mline.replace(mline.split(' ')[1], requri)
     # Forming the request message back up
