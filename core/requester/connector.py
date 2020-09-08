@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 from libs import config
-import socket, logging, select
+import socket, logging, select, time
 from core.requester.parser import parseResponse
 
 def sockinit():
@@ -28,6 +28,9 @@ def sendreq(sock, data):
     Sends the request to the server
     '''
     dst = (config.IP, config.RPORT)
+    # Added delay functionality
+    if config.DELAY > 0:
+        time.sleep(config.DELAY)
     while data:
         # SIP RFC states the default serialized encoding is utf-8
         bytes_sent = sock.sendto(bytes(data[:8192], 'utf-8'), dst)
