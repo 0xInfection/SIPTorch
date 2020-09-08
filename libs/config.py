@@ -94,7 +94,6 @@ DEF_EXT = "2000"
 DEF_HSET = {
     'Allow'         : 'INVITE, ACK, CANCEL, BYE, NOTIFY, REFER, MESSAGE, OPTIONS, INFO, SUBSCRIBE',
     'Max-Forwards'  : '70',
-    'User-Agent'    : USER_AGENT,
     'Accept'        : ACCEPT,
     'Call-ID'       : CALL_ID
 }
