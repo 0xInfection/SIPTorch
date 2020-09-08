@@ -13,6 +13,7 @@ import logging
 import random, socket
 from libs.config import *
 from core.utils import validateHost
+from core.uaselect import randUASelect
 from core.requester.parser import catMetHead
 from mutators.replparam import genRandStr
 
@@ -36,6 +37,9 @@ def makeRequest(method, bsbody='', contentlength=None):
         uri = 'sip:%s' % dsthost
     else:
         uri = 'sip:%s@%s' % (extension, dsthost)
+    if SPOOF_UA:
+        headers['User-Agent'] = randUASelect()
+    else: headers['User-Agent'] = USER_AGENT
     if not BRANCH:
         branch = '%s' % random.getrandbits(32)
     else: srchost = SRC_HOST
@@ -59,11 +63,10 @@ def makeRequest(method, bsbody='', contentlength=None):
     headers['Content-Length'] = len(body)
     if 'register' not in method.lower():
         headers['Contact'] = '<sip:%s@%s>' % (senderext, RHOST)
-    if CONTENT_TYPE is None and len(body) > 0:
-        contenttype = 'application/sdp'
-    else: contenttype = CONTENT_TYPE
+    if CONTENT_TYPE is not None and len(body) > 0:
+        contenttype = CONTENT_TYPE
     if contenttype is not None:
         headers['Content-Type'] = contenttype
     r = '%s %s SIP/2.0\r\n' % (method, uri)
-    x = catMetHead(r, headers, body=body)
-    return x
+    reformedmsg = catMetHead(r, headers, body=body)
+    return reformedmsg
