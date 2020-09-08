@@ -75,7 +75,7 @@ def buildcache(pluginlist):
     '''
     Builds a cache of modules present
     '''
-    lists = [
+    testtypes = [
         'Application Layer Semantics',
         'Backward Compatability Tests',
         'Invalid Messages',
@@ -83,13 +83,13 @@ def buildcache(pluginlist):
         'Transaction Layer Semantics'
     ]
     memmap = dict()
-    for x in lists:
+    for test in testtypes:
         appender = list()
         for plug in pluginlist.list_plugins():
             loader = pluginlist.load_plugin(plug)
-            if loader.module_info['category'] == x:
+            if loader.module_info['category'] == test:
                 appender.append(loader.module_info['test'])
-        memmap[x] = appender
+        memmap[test] = appender
     with open('libs/modules.json', 'w+') as wf:
         json.dump(memmap, wf, indent=4)
 
