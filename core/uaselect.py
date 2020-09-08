@@ -10,7 +10,7 @@
 # https://github.com/0xInfection/SIPTorch
 
 
-# This is a real list of SIP user-agents which have been
+# This is a list of real SIP user-agents which have been
 # handpicked from the wild. ;)
 ualist = [
     'TANDBERG/4136 (X8.11.4)',
