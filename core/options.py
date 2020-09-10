@@ -26,7 +26,7 @@ print('''
 
 log = logging.getLogger('options')
 
-parser = argparse.ArgumentParser(usage='./siptorch -u <url/ip> [options]')
+parser = argparse.ArgumentParser(usage='./siptorch.py -u <url/ip> [options]')
 parser._action_groups.pop()
 
 required = parser.add_argument_group('Required Arguments')
