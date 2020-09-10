@@ -37,11 +37,11 @@ required.add_argument('-u', '--target', help='Destination target to test', dest=
 
 # Optional arguments
 optional.add_argument('-p', '--rport',
-                help='Destination port to use for sending packets to', dest='rport', type=int)
+                help='Destination port to use for sending packets to (default 5060)', dest='rport', type=int)
 optional.add_argument('-P', '--lport',
-                help='Local source port to use for binding to', dest='lport', type=int)
+                help='Local source port to use for binding to (default 5060)', dest='lport', type=int)
 optional.add_argument('-o', '--output',
-                help='Output destination to write results', dest='output', type=str)
+                help='Output directory to write results to', dest='output', type=str)
 optional.add_argument('-d', '--delay', 
                 help='Specify delay in seconds between two subsequent requests', dest='delay', type=int)
 optional.add_argument('-t', '--timeout', 
