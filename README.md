@@ -22,7 +22,9 @@
 </p>
 
 ### About
-__SIPTorch__ is a testing suite for the [Session Initiation Protocol](https://tools.ietf.org/html/rfc3261), popularly known as SIP Torture tests. These tests are primarily meant to harden and refine both the SIP protocol and its implementations. Hopefully this tool will help shaping SIP into a globally interoperable protocol for real time Internet communication services. Presently the tool implements the tests mentioned specifically in the [RFC 4475](https://tools.ietf.org/html/rfc4475), but future extensions to the modules is planned. The tests are divided into several sections - some stress the parser, some test the implementation of application/transaction layer semantics, some messages are themselves invalid, while others test backward compatibility. This tool however does not support IPv6 elements for now.
+__SIPTorch__ is a testing suite for the [Session Initiation Protocol](https://tools.ietf.org/html/rfc3261), popularly known as SIP Torture tests. These tests are primarily meant to harden and refine both the SIP protocol and its implementations. Hopefully this tool will help shaping SIP into a globally interoperable protocol for real time Internet communication services. 
+
+Presently the tool implements the tests mentioned specifically in the [RFC 4475](https://tools.ietf.org/html/rfc4475), but future extensions to the modules is planned. The tests are divided into several sections - some stress the parser, some test the implementation of application/transaction layer semantics, some messages are themselves invalid, while others test backward compatibility. This tool however does not support IPv6 elements for now.
 
 ### Highlights
 - [x] Implements full support for testing IPv4 elements.
@@ -131,21 +133,23 @@ Optional Arguments:
 For a testbed, you'll require a URL/IP which talks SIP.  
 For testing purposes you can use a publicly hosted testing server at `demo.sipvicious.pro`.
 
+- Examples:
+    - Basic example usage:
+    ```bash
+    ./siptorch.py -u sip.example.com --rport 5060 -v
+    ```
+    - Specify timeout and add delay between requests:
+    ```bash
+    ./siptorch.py -u sip.example.com --delay 2 --timeout 10
+    ```
+    - Spoof useragents with every request and add local port
+    ```bash
+    ./siptorch.py -u sip.example.com --spoof-ua --lport 5080 
+    ```
+    
 After performing all the tests, the results of the tool are stored in a markdown file under the `siptorch-output/` folder in your current working directory.
 
-Basic example usage:
-```bash
-./siptorch.py -u sip.example.com --rport 5060 -v
-```
-Specify timeout and add delay between requests:
-```bash
-./siptorch.py -u sip.example.com --delay 2 --timeout 10
-```
-Spoof useragents with every request and add local port
-```
-./siptorch.py -u sip.example.com --spoof-ua --lport 5080 
-```
-For advanced usage, you can have a look at the [configuration variables](https://github.com/0xInfection/SIPTorch/blob/master/libs/config.py) and edit them as per your need. Then fire up the tool as you would normally do.
+For more advanced usage, you can have a look at the [configuration variables](https://github.com/0xInfection/SIPTorch/blob/master/libs/config.py) and edit them as per your need. Then fire up the tool as you would normally do.
 
 ### New modules
 SIPTorch has been designed in a very flexible way so as to allow easy extension of modules. Writing a new module involves these steps:
@@ -173,4 +177,4 @@ This project was made by me out of sheer interest and curiousity when I was expl
 
 New ideas and pull requests are welcome. If you have any trouble, you can always [pull an issue up](https://github.com/0xInfection/SIPTorch/issues/new)!
 
-> ~ [@0xInfection](https://twitter.com/0xInfection)
+> Crafted with ❤️ by [@0xInfection](https://twitter.com/0xInfection)
