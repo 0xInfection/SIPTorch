@@ -9,8 +9,27 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
+from core.colors import color
+
 VERSION = '0.1.0'
 LICENSE = 'GNU General Public License v3 (GPLv3)'
+
+ART = '''
+       %s'          
+      /(          
+     |  \        %s  ___| _ _|   _ \ __ __|                  | 
+      %s\_/        %s\___ \   |   |   |   |   _ \    __|  __|  __ \\
+   %s___'-,___     %s      |  |   ___/    |  (   |  |    (     | | |
+   %s\__.-.__/     %s_____/ ___| _|      _| \___/  _|   \___| _| |_|
+      %s| |       
+      '-,              %s_________________________________
+      %s| |
+      '-,                  %s~ Author : %s@0xInfection ~
+      %s\_/                    %s~ Version : %sv0.1.0 ~
+''' % (color.RED, color.CYAN, color.RED, color.CYAN, color.ORANGE, 
+        color.CYAN, color.ORANGE, color.CYAN, color.ORANGE, color.GREY,
+        color.ORANGE, color.BLUE, color.GREY, color.ORANGE, color.BLUE,
+        color.GREY)
 
 # Whitespace chars
 TAB = r"	"
