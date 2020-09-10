@@ -17,19 +17,19 @@ LICENSE = 'GNU General Public License v3 (GPLv3)'
 ART = '''
        %s'          
       /(          
-     |  \        %s  ___| _ _|   _ \ __ __|                  | 
-      %s\_/        %s\___ \   |   |   |   |   _ \    __|  __|  __ \\
-   %s___'-,___     %s      |  |   ___/    |  (   |  |    (     | | |
-   %s\__.-.__/     %s_____/ ___| _|      _| \___/  _|   \___| _| |_|
+     |  \        %s  ___| _ _|   _ \  __ __|                | 
+      %s\_/        %s\___ \   |   |   |    |   _ \   __| __|  __ \\
+   %s___'-'___     %s      |  |   .__/     |  (   | |   (     | | |
+   %s\__.-.__/     %s_____/ ___| _|       _| \___/ _|  \___| _| |_|
       %s| |       
-      '-,              %s_________________________________
+      '-,             %s_________________________________
       %s| |
       '-,                  %s~ Author : %s@0xInfection ~
-      %s\_/                    %s~ Version : %sv0.1.0 ~
+      %s\_/                    %s~ Version : %sv%s ~
 ''' % (color.RED, color.CYAN, color.RED, color.CYAN, color.ORANGE, 
         color.CYAN, color.ORANGE, color.CYAN, color.ORANGE, color.GREY,
         color.ORANGE, color.BLUE, color.GREY, color.ORANGE, color.BLUE,
-        color.GREY)
+        color.GREY, VERSION)
 
 # Whitespace chars
 TAB = r"	"
