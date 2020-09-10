@@ -1,11 +1,11 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/0xinfection/siptorch"><img src="https://i.ibb.co/rQzpKk6/circle-cropped.png" alt="siptorch"/></a>
+  <a href="https://github.com/0xinfection/siptorch"><img src="" alt="siptorch"/></a>
   <br>
   <br>
   SIPTorch
 </h1>
-<h4 align="center">A "SIP Torture" ([RFC 4475](https://tools.ietf.org/html/rfc4475)) testing suite.</h4>
+<h4 align="center">A "SIP Torture" (<a href="https://tools.ietf.org/html/rfc4475">RFC 4475</a>) testing suite.</h4>
 <p align="center">  
   <a href="https://docs.python.org/3/download.html">
     <img src="https://img.shields.io/badge/Python-3.x-green.svg">
