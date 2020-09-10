@@ -36,6 +36,10 @@ optional = parser.add_argument_group('Optional Arguments')
 required.add_argument('-u', '--target', help='Destination target to test', dest='target', type=str)
 
 # Optional arguments
+optional.add_argument('-p', '--rport',
+                help='Destination port to use for sending packets to', dest='rport', type=int)
+optional.add_argument('-P', '--lport',
+                help='Local source port to use for binding to', dest='lport', type=int)
 optional.add_argument('-o', '--output',
                 help='Output destination to write results', dest='output', type=str)
 optional.add_argument('-d', '--delay', 
@@ -75,6 +79,12 @@ if args.build_cache:
 
 if args.user_agent:
     config.USER_AGENT = args.user_agent
+
+if args.lport:
+    config.LPORT = args.lport
+
+if args.rport:
+    config.RPORT = args.rport
 
 if not (args.version and args.build_cache):
     if args.target:
