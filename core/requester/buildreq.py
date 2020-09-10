@@ -25,6 +25,7 @@ def makeRequest(method, bsbody='', contentlength=None):
     extension = DEF_EXT
     branch = BRANCH
     body = ''
+    contenttype = None
     if not SRC_HOST:
         srchost = socket.gethostbyname(socket.gethostname())
     dsthost = IP  # if IP else validateHost(RHOST)
