@@ -18,7 +18,7 @@ script:
   # Help message.
   - python siptorch.py --version
   - python siptorch.py --help
-  - python siptorch.py -u demo.sipvicious.pro --spoof-ua -t 7 -vv
+  - python siptorch.py -u demo.sipvicious.pro --spoof-ua -t 7 -v
 notifications:
   on_success: change
   on_failure: change  # `always` will be the setting once code changes slow down
