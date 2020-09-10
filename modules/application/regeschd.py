@@ -36,6 +36,7 @@ def regeschd():
     msg = buildreq.makeRequest('REGISTER')
     mline, head, body = parseMsg(msg)
     # Tweak 1: Contact header where URI has escaped header
+    head['Contact'] = head.get('Contact').strip('<>')
     head['Contact'] += r'?Route=%3Csip:sip.example.com%3E'
     head['Contact'] = '<%s>' % head['Contact']
     # Forming the request message back up
