@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/0xinfection/siptorch"><img src="https://i.imgur.com/SGBZC9f.png" alt="siptorch"/></a>
+  <a href="https://github.com/0xinfection/siptorch"><img src="https://i.imgur.com/Iux2GzGm.png" alt="siptorch"/></a>
   <br>
   <br>
   SIPTorch
