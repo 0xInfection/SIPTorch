@@ -22,7 +22,7 @@
 </p>
 
 ### About
-__SIPTorch__ is a testing suite for the [Session Initiation Protocol](https://tools.ietf.org/html/rfc3261), popularly known as SIP Torture tests. These tests are primarily meant to harden and refine both the SIP protocol and its implementations. Hopefully this tool will help shaping SIP into a globally interoperable protocol for real time Internet communication services. 
+__SIPTorch__ is a testing suite for the [Session Initiation Protocol](https://tools.ietf.org/html/rfc3261). These tests, popularly known as SIP Torture Tests are primarily meant to harden and refine both the SIP protocol and its implementations. Hopefully this tool will help shaping SIP into a globally interoperable protocol for real time Internet communication services. 
 
 Presently the tool implements the tests mentioned specifically in the [RFC 4475](https://tools.ietf.org/html/rfc4475), but future extensions to the modules is planned. The tests are divided into several sections - some stress the parser, some test the implementation of application/transaction layer semantics, some messages are themselves invalid, while others test backward compatibility. This tool however does not support IPv6 elements for now.
 
