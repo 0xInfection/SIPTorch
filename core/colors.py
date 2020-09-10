@@ -21,7 +21,7 @@ if os.name != 'nt' and os.name != 'mac':
         BLUE  = '\033[1;94m'            # blue
         PURPLE  = '\033[1;95m'          # purple
         UNDERLINE = '\033[4m'           # underline
-        CYAN  = '\033[1;96m'            # cyan
+        CYAN  = '\033[1;36m'            # cyan
         GREY = '\033[1;97m'             # gray
         BR = '\033[1;97;41m'            # background red
         BG = '\033[1;97;42m'            # background green
