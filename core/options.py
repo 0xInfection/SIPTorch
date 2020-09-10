@@ -21,8 +21,8 @@ from libs.data import LICENSE as __license__
 
 print('''
   %sSIPTorch %s- %sA SIP Torture Testing Suite
-            %sVersion : 0.1%s
-''' % (color.CYAN, color.GREY, color.BLUE, color.RED, color.END))
+           %sVersion : v%s%s
+''' % (color.CYAN, color.GREY, color.BLUE, color.RED, __version__, color.END))
 
 log = logging.getLogger('options')
 
