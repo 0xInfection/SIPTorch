@@ -16,16 +16,17 @@ import logging
 from core.options import *
 from libs import config
 from core.colors import G
+from libs.data import ART
 from core.plugrun import runAll
-#from core.options import setsipopts
-from core.utils import calcLogLevel
 from core.requester import connector
+from core.utils import calcLogLevel, clsterm
 from core.logger import loggerinit, logfooter, CustomFormatter
 
 def startEngine():
     '''
     The main stuff
     '''
+    clsterm(ART)
     #args, config = setsipopts()
     formatter = CustomFormatter()
     handler = logging.StreamHandler(sys.stdout)
