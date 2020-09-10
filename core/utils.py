@@ -9,10 +9,12 @@
 # This module requires SIPTorch
 # https://github.com/0xInfection/SIPTorch
 
+import os
 import sys
 import socket
 import random
 import logging
+import subprocess
 from libs import config
 from libs.data import BAD_RESP
 
@@ -129,3 +131,12 @@ def calcLogLevel(args):
     if args.quiet:
         baseloglevel = 50
     return baseloglevel
+
+
+def clsterm(content: str):
+    '''
+    Clears terminal and then prints out the content
+    '''
+    _ = subprocess.call('clear' if os.name =='posix' else 'cls')
+    print(content)
+    return
