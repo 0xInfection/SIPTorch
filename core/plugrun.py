@@ -100,15 +100,16 @@ def runAll(options=None):
     '''
     log = logging.getLogger('runAll')
     log.debug('Loading all modules')
-    plugin = pluginbase.PluginBase(package='tests')
+    plugin = pluginbase.PluginBase(package='modules')
     pluginsource = plugin.make_plugin_source(
-        searchpath=['./tests/application', 
-                    './tests/backcomp', 
-                    './tests/invalid',
-                    './tests/parser',
-                    './tests/transaction'
+        searchpath=['./modules/application', 
+                    './modules/backcomp', 
+                    './modules/invalid',
+                    './modules/parser',
+                    './modules/transaction'
                 ])
     if options is not None and options.build_cache:
+        print('executing')
         buildcache(pluginsource)  # <- Uncomment this line to build cache
         return
     for plug in pluginsource.list_plugins():
