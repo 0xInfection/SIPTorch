@@ -34,7 +34,7 @@ def badbranch():
     branch parameter), or it could fall back to the RFC 2543-style
     transaction identifier.
     '''
-    log = logging.getLogger('inv2543')
+    log = logging.getLogger('badbranch')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
     mline, head, body = parseMsg(msg)
