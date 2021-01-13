@@ -12,7 +12,7 @@
 import logging, random
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Invalid Messages',
@@ -33,11 +33,11 @@ def negcl():
     log = logging.getLogger('negcl')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the content length header
     head['Content-Length'] = '-%s' % random.getrandbits(10)
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

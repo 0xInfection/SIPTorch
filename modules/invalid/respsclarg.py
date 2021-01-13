@@ -12,7 +12,7 @@
 import logging, random
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Invalid Messages',
@@ -32,7 +32,7 @@ def respsclarg():
     log = logging.getLogger('respsclarg')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the method line
     mline = 'SIP/2.0 503 Service Unavailable'
     # Tweak 2: Add retry after header
@@ -44,7 +44,7 @@ def respsclarg():
     head['CSeq'] = head.get('CSeq').replace(
         head.get('CSeq').split(' ')[0], str(random.getrandbits(100)))
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

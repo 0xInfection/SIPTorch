@@ -12,7 +12,7 @@
 import logging, random
 from core.requester import buildreq
 from core.plugrun import runPlugin
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import genRandStr
 
 module_info = {
@@ -45,10 +45,10 @@ def unkauth():
     log = logging.getLogger('unkauth')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('REGISTER')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Add invalid auth scheme
     head['Authorization'] = '%s %s' % (genRandStr(15), 'randparam-data=valuehere')
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

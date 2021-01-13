@@ -12,7 +12,7 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Invalid Messages',
@@ -36,11 +36,11 @@ def reginvct():
     log = logging.getLogger('reginvct')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the contact header, and leave it just 
     # like that, not adding any < or > around URL
     head['Contact'] += r'?Route=%3Csip:sip.example.com%3E'
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

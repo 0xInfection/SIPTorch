@@ -12,7 +12,7 @@
 import logging
 from core.requester import buildreq
 from core.plugrun import runPlugin
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import genRandStr
 
 module_info = {
@@ -39,11 +39,11 @@ def invsdp():
     log = logging.getLogger('invsdp')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('REGISTER')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Invalid Accept offering
     head['Accept'] = 'text/%s' % genRandStr(7)
     # Forming the request message back up
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

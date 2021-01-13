@@ -13,7 +13,7 @@ import logging
 from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Application Layer Semantics',
@@ -38,12 +38,12 @@ def novelscm():
     log = logging.getLogger('novelscm')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     requri = 'beep.boop://%s:%s' % (config.IP, config.RPORT)
     # Tweak 1: Remove the following required headers
     mline = mline.replace(mline.split(' ')[1], requri)
     # Forming the request message back up
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

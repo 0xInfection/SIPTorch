@@ -12,7 +12,7 @@
 import logging
 from core.requester import buildreq
 from core.plugrun import runPlugin
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Application Layer Semantics',
@@ -33,13 +33,13 @@ def cparam2():
     log = logging.getLogger('cparam2')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('REGISTER')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Add an unknwown param to contact header
     head['Contact'] += ';unknownparam'
     # Tweak 2: Add the </> to make a complete URL
     head['Contact'] = '<%s>' % head['Contact']
     # Forming the request message back up
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

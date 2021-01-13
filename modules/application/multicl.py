@@ -12,7 +12,7 @@
 import logging, random
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Application Layer Semantics',
@@ -32,11 +32,11 @@ def multicl():
     log = logging.getLogger('multicl')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Add multiple content-length values
     head['content-length'] = random.getrandbits(6)
     # Recompiling our message
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

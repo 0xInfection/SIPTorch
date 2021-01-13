@@ -26,7 +26,7 @@ def parseResponse(buff, addr):
     return (data, str(ip), str(port))
 
 
-def catMetHead(req: str, headers: dict, body=r''):
+def concatMethodxHeaders(req: str, headers: dict, body=r''):
     '''
     Converts a request line, dict of headers, body to a SIP message
     '''
@@ -41,11 +41,11 @@ def catMetHead(req: str, headers: dict, body=r''):
     return req
 
 
-def parseMsg(msg: str):
+def parseSIPMessage(msg: str):
     '''
     Parses SIP messages into method line and header dict
     '''
-    log = logging.getLogger('parseMsg')
+    log = logging.getLogger('parseSIPMessage')
     if msg is None:
         log.error("No message for parsing")
         return

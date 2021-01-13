@@ -12,7 +12,7 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Invalid Messages',
@@ -30,13 +30,13 @@ def lwsuri():
     log = logging.getLogger('lwsuri')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Insert lws after the URI element
     requri = mline.split(' ')[1]
     requri += r'; somerandomparamter'
     mline = mline.replace(mline.split(' ')[1], requri)
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

@@ -13,7 +13,7 @@ import logging, re
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from mutators.urlencchar import urlEncodeStrInvalid
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -34,7 +34,7 @@ def escinv():
     log = logging.getLogger('escinv')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('REGISTER')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: modify the register header
     newmeth = urlEncodeStrInvalid('EGISTER', randomchoice=True, value=2)
     # Making sure the first byte is not URL encoded
@@ -49,7 +49,7 @@ def escinv():
     newct = '%s%s' % ('C', urlEncodeStrInvalid('ontact', value=1))
     head[newct] = re.sub(r'sip:\w+?@', 'sip:6969@', head.get('Contact'))
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

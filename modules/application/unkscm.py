@@ -12,7 +12,7 @@
 import logging
 from core.requester import buildreq
 from core.plugrun import runPlugin
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Application Layer Semantics',
@@ -39,11 +39,11 @@ def unkscm():
     log = logging.getLogger('unkscm')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: modify the request URI scheme
     mline = mline.replace(mline.split(' ')[1], 'unknownscheme:unknowncontent')
     # Forming the request message back up
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

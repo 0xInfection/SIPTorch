@@ -47,7 +47,7 @@ def handler(sock):
     # Descriptors to use during async I/O waiting
     rlist = [sock]
     wlist, xlist = list(), list()
-    log.debug("binding to %s:%s" % (bindingface, config.LPORT))
+    log.debug("Binding to %s:%s" % (bindingface, config.LPORT))
     try:
         sock.bind((bindingface, localport))
     except socket.error as err:
@@ -66,8 +66,12 @@ def handler(sock):
                 log.debug("Data received from: %s:%s" % (str(host), str(port)))
                 return (daff, host, port)
             except socket.timeout:
+                message = 'Generic timeout occured - no reply received.\n'
+                message += 'It is highly probable that the server might have '
+                message += 'encountered an issue which handling this request.\n'
+                message += 'Investigate your server logs.'
                 log.error('Timeout occured when waiting for message')
-                return ('Generic Timeout Occured - No Response Received\nInvestigate your server logs.', '', '')
+                return (message, '', '')
             except socket.error as err:
-                log.error("Target %s errored out: %s" % (str(host), err.__str__()))
+                log.error("Target errored out: %s" % (err.__str__()))
                 return ('Error Enountered: %s' % err.__str__(), '', '')

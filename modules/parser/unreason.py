@@ -12,7 +12,7 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -38,7 +38,7 @@ def unreason():
     log = logging.getLogger('unreason')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the header of the message
     # We are using a 20 char to form the remaining
     utfencstr = r'e0a6a4e0a6ace0a78720e0a68fe0a695e0a6b6e0a'
@@ -48,7 +48,7 @@ def unreason():
     mline = 'SIP/2.0 200 = %s * %s %s' % ('2**5', '5**2',
         bytearray.fromhex(utfencstr).decode('utf-8'))
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

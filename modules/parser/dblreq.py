@@ -12,7 +12,7 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -40,11 +40,11 @@ def dblreq():
     log.info('Testing module: %s' % module_info['test'])
     msg1 = buildreq.makeRequest('REGISTER')
     msg2 = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg1)
+    mline, head, body = parseSIPMessage(msg1)
     # Tweak 1: Add the body of msg1 as msg2, short hack
     body = '\r\n%s' % msg2
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

@@ -10,7 +10,8 @@
 # https://github.com/0xInfection/SIPTorch
 
 import os
-import sys
+import string
+import re
 import socket
 import random
 import logging
@@ -59,7 +60,7 @@ def validateHost(url: str):
         if lookUp(url):
             return url
         else:
-            log.critical('Target %s not responding on port %s' % (url, config.RPORT)) 
+            log.critical('Target %s not responding on port %s' % (url, config.RPORT))
             return
     except OSError:
         log.info('The input does not seem to be a IP, must be a domain')
@@ -67,7 +68,7 @@ def validateHost(url: str):
         if ip:
             log.info("%s resolves to %s" % (url, ip))
             return ip
-        else: return 
+        else: return
 
 
 def lookUp(url: str, typef='ip', port=config.RPORT):
@@ -131,6 +132,14 @@ def calcLogLevel(args):
     if args.quiet:
         baseloglevel = 50
     return baseloglevel
+
+
+def extractExtension(addr: string):
+    '''
+    Extracts extension from a address string
+    '''
+    regex = re.compile(r'"?\w*?"?\s*(\w+)@(?:\d{1,3}\.){3}\d{1,3}', addr, re.I)
+    return regex.search(addr).group(1)
 
 
 def clsterm(content: str):

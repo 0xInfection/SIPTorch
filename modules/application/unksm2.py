@@ -12,7 +12,7 @@
 import logging, random
 from core.requester import buildreq
 from core.plugrun import runPlugin
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import genRandStr
 
 module_info = {
@@ -37,14 +37,14 @@ def unkscm2():
     log = logging.getLogger('unkscm2')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('REGISTER')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: modify the header URI scheme
     head['To'] = '%s:%s' % (genRandStr(4), random.getrandbits(32))
     fromhead = head['From']
     head['From'] = fromhead.replace(fromhead.split(';')[0], '<http://example.com>')
     head['Contact'] = '<name:siptorch_flames>'
     # Forming the request message back up
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

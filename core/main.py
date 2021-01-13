@@ -11,7 +11,6 @@
 
 import sys
 import time
-import socket
 import logging
 from core.options import *
 from libs import config

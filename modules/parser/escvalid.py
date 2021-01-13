@@ -15,7 +15,7 @@ from core.plugrun import runPlugin
 from core.requester import buildreq
 from mutators.urlencchar import urlEncodeStrValid
 from mutators.urlencchar import urlEncodeStrInvalid
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -41,7 +41,7 @@ def escvalid():
     log = logging.getLogger('escvalid')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the user part
     user = re.search(r'(sip:\w+?@[\w\.]+?)\s', mline, re.I).group(1)
     user = urlEncodeStrValid(user)
@@ -62,7 +62,7 @@ def escvalid():
         r'%25%34%31'
     )
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

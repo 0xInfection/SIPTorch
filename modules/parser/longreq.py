@@ -14,7 +14,7 @@ from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from mutators.multihead import multiHead
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -32,7 +32,7 @@ def longreq():
     log = logging.getLogger('longreq')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Such long To value
     longto = "I have a user name of %s proportion" % ('extreme'*10)
     head['To'] = "%s <%s" % (longto, head.get('To').split('<')[1])
@@ -70,7 +70,7 @@ def longreq():
             newhead[x] = 'SIP/2.0/UDP sip%s.infectedsip.com' % sipc
             sipc += 1  # incrementing the value properly
     # Forming the message up back again
-    mg = catMetHead(mline, newhead, body=body)
+    mg = concatMethodxHeaders(mline, newhead, body=body)
     return mg
 
 def run():

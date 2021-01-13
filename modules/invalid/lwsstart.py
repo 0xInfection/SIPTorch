@@ -13,7 +13,7 @@ import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from mutators.lwsinsert import lwsInsert
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Invalid Messages',
@@ -37,11 +37,11 @@ def lwsstart():
     log = logging.getLogger('lwsstart')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Double the spaces in the method line with tabs 
     # or other space chars, maybe illegal but utf-8
     mline = lwsInsert(mline, length=2, charc='', endsonly=True)
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

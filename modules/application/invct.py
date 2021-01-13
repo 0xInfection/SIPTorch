@@ -12,7 +12,7 @@
 import logging
 from core.requester import buildreq
 from core.plugrun import runPlugin
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import genRandStr
 
 module_info = {
@@ -35,7 +35,7 @@ def invct():
     log = logging.getLogger('invct')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the content type
     head['Content-Type'] = 'application/%s' % genRandStr(10)
     # Tweak 2: Modify the body
@@ -43,7 +43,7 @@ def invct():
     # Tweak 3: Modify the content-length
     head['Content-Length'] = '%s' % len(body)
     # Forming the request message back up
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

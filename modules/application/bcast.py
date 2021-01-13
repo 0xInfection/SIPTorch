@@ -12,7 +12,7 @@
 import logging, random
 from core.requester import buildreq
 from core.plugrun import runPlugin
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Application Layer Semantics',
@@ -36,13 +36,13 @@ def bcast():
     log = logging.getLogger('bcast')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: The message header first
     mline = 'SIP/2.0 200 OK'
     # Tweak 2: Add another via header
     head['via'] = 'SIP/2.0/UDP %s;branch=z9hG4bK-%s' % (bcastaddr, random.getrandbits(32))
     # Recompiling our message
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

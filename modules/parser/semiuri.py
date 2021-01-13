@@ -12,7 +12,7 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -33,7 +33,7 @@ def semiuri():
     log = logging.getLogger('semiuri')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the header options uri
     newuri = mline.split(' ')[1] 
     nuri = '%s;param=u%sinfectedsip.net@%s' % (
@@ -44,7 +44,7 @@ def semiuri():
     head['Accept'] += 'multipart/mixed, multipart/signed, '
     head['Accept'] += 'message/sip, message/sipfrag'
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

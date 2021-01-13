@@ -12,7 +12,7 @@
 import logging, random
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Invalid Messages',
@@ -38,7 +38,7 @@ def reqsclarg():
     log = logging.getLogger('reqsclarg')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('REGISTER')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the max-forwards header
     head['Max-Forwards'] = '300'
     # Tweak 2: Add large scalar value in cseq
@@ -49,7 +49,7 @@ def reqsclarg():
     # Tweak 4: Contact header expires header
     head['Contact'] += ';expires=%s' % random.getrandbits(100)
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

@@ -13,7 +13,7 @@ import logging, random
 from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import rmallParam, rmspcParam
 
 module_info = {
@@ -41,13 +41,13 @@ def invdisp():
     log = logging.getLogger('invdisp')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify add untokenized header display names
     head['From'] = '%s, %s <sip:%s@%s>;tag=%s' % (
         'siptorch', 'testing', config.DEF_EXT, config.RHOST, random.getrandbits(32))
     head['To'] = '%s, %s, %s <sip:%s@%s>' % (
             'server', "shouldn't", 'break', config.DEF_EXT, config.RHOST)
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

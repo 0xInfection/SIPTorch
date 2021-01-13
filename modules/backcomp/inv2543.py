@@ -12,7 +12,7 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import rmallParam, rmspcParam
 
 module_info = {
@@ -32,7 +32,7 @@ def inv2543():
     log = logging.getLogger('inv2543')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Remove branch parameter from Via
     head['Via'] = rmallParam(head['Via'])
     # Tweak 2: Remove from tag
@@ -47,7 +47,7 @@ def inv2543():
     for x in rmhead:
         head.pop(x, None)
     # Forming the request message back up
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

@@ -12,7 +12,7 @@
 import logging
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Invalid Messages',
@@ -35,14 +35,14 @@ def metmatch():
     log = logging.getLogger('metmatch')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify method line
     line = 'BLABLAMETHOD %s %s' % (
         mline.split(' ')[1], mline.split(' ')[2])
     # NOTE: We are not modifying the CSeq header since it is already
     # set to 1 INVITE, hence not messing up anyway
     # Forming the request message back up
-    mg = catMetHead(line, head, body=body)
+    mg = concatMethodxHeaders(line, head, body=body)
     return mg
 
 def run():

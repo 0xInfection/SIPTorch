@@ -12,7 +12,7 @@
 import logging, datetime
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Invalid Messages',
@@ -41,12 +41,12 @@ def baddate():
     log = logging.getLogger('baddate')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     x = datetime.datetime.now()
     # Tweak 1: Add non-GMT timezone to date header
     head['Date'] = '%s, %s %s %s %s EST' % (x.strftime('%a'), x.strftime('%d'),
         x.strftime('%b'), x.strftime('%Y'), x.strftime('%X'))
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

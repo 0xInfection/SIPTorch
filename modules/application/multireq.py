@@ -13,7 +13,7 @@ import logging, random
 from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Application Layer Semantics',
@@ -31,7 +31,7 @@ def multireq():
     log = logging.getLogger('multireq')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Add multiple keys with same value duplicate
     # The RFC 3261 says that the SIP message is not case-sensitive
     # So what we do to exploit this is, lowercase the keys to form 
@@ -45,7 +45,7 @@ def multireq():
     head['from'] = 'sip:2020@%s;tag=%s' % (config.RHOST, random.getrandbits(32))
     head['max-forwards'] = '5'
     # Recompiling our message
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

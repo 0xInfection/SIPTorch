@@ -13,7 +13,7 @@ import logging, re
 from core.plugrun import runPlugin
 from core.requester import buildreq
 from libs.data import NULL_CHAR
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -35,7 +35,7 @@ def escnull():
     log = logging.getLogger('escnull')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('REGISTER')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: modify to and from headers
     head['To'] = re.sub(r'sip:\w+?@', 
         'sip:null-%s-null@' % NULL_CHAR, head.get('To'))
@@ -47,7 +47,7 @@ def escnull():
     head['CONTACT'] = re.sub(r'sip:\w+?@', 
         'sip:%s@' % (NULL_CHAR*5), head.get('Contact'))
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

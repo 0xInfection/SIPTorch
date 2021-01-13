@@ -13,7 +13,7 @@ from libs import config
 import logging, socket, random
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 
 module_info = {
     'category'  :   'Syntactical Parser Tests',
@@ -34,7 +34,7 @@ def transports():
     log = logging.getLogger('transports')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Add multiple via headers
     # So here's a hurdle, what happens here is that python dict doesn't
     # allow duplicate dicts, so we permutate the letters toggling upper/
@@ -55,7 +55,7 @@ def transports():
     head['vIa'] = 'SIP/2.0/SCTP %s:%s;branch=z9hG4bK-%s;rport' % \
         (srchost, config.LPORT, random.getrandbits(32))
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

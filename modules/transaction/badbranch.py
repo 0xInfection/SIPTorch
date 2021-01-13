@@ -12,7 +12,7 @@
 import logging, re
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import rmallParam, rmspcParam
 
 module_info = {
@@ -37,12 +37,12 @@ def badbranch():
     log = logging.getLogger('badbranch')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('INVITE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Remove the branch identifier after z9hG4bk
     repl = re.sub(r'z9hG4bK.*?[^;]*', r'z9hG4bK', head['Via'])
     head['Via'] = repl
     # Forming the request message back up
-    msg = catMetHead(mline, head, body=body)
+    msg = concatMethodxHeaders(mline, head, body=body)
     return msg
 
 def run():

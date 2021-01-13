@@ -12,7 +12,7 @@
 import logging, random
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import genRandStr
 from mutators.replparam import rmallParam, rmspcParam
 
@@ -32,11 +32,11 @@ def bigcode():
     log = logging.getLogger('bigcode')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('OPTIONS')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Tweak 1: Modify the method line
     mline = 'SIP/2.0 %s %s' % (random.getrandbits(32), genRandStr(20))
     # Forming the request message back up
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

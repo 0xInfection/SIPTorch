@@ -13,7 +13,7 @@ import logging
 from libs import config
 from core.plugrun import runPlugin
 from core.requester import buildreq
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage, concatMethodxHeaders
 from mutators.replparam import genRandStr
 
 module_info = {
@@ -39,7 +39,7 @@ def mpmime():
     log = logging.getLogger('mpmime')
     log.info('Testing module: %s' % module_info['test'])
     msg = buildreq.makeRequest('MESSAGE')
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     # Message to be sent over
     cer = r'3082015206092A864886F70D010702A08201433082013F02'
     cer += r'01013109300706052B0E03021A300B06092A864886F70D010701318201203082'
@@ -71,7 +71,7 @@ def mpmime():
     # Tweak 6: Add content-length header
     head['Content-Length'] = len(body)
     # Forming the message up back again
-    mg = catMetHead(mline, head, body=body)
+    mg = concatMethodxHeaders(mline, head, body=body)
     return mg
 
 def run():

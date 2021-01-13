@@ -13,7 +13,7 @@ import datetime, time
 import os, logging, sys
 from libs import config
 from core.colors import C, R, G, color
-from core.requester.parser import parseMsg, catMetHead
+from core.requester.parser import parseSIPMessage
 
 class CustomFormatter(logging.Formatter):
     '''
@@ -26,8 +26,8 @@ class CustomFormatter(logging.Formatter):
     dbg_fmt  = color.CYAN+"[~] DEBUG: "+color.END+"%(module)s: %(msg)s"
 
     def __init__(self):
-        super().__init__(fmt="%(levelno)d: %(msg)s", datefmt=None, style='%')  
-    
+        super().__init__(fmt="%(levelno)d: %(msg)s", datefmt=None, style='%')
+
     def format(self, record):
 
         format_orig = self._style._fmt
@@ -55,7 +55,7 @@ class CustomFormatter(logging.Formatter):
 
 def checkDir(hst: str):
     '''
-    Check if directories are present and create 
+    Check if directories are present and create
     the output locations
     '''
     global host
@@ -97,7 +97,7 @@ def loggerinit(host: str):
 
 def logresp(content: str):
     '''
-    Log response to a file 
+    Log response to a file
     '''
     log = logging.getLogger('logresp')
     try:
@@ -111,7 +111,7 @@ def prheaders(msg: str):
     '''
     Display headers properly
     '''
-    mline, head, body = parseMsg(msg)
+    mline, head, body = parseSIPMessage(msg)
     s = color.GREY + '%s '.join(mline.split(' ')) % (color.RED, color.ORANGE)
     for k, v in head.items():
         s += '%s%s: %s%s\n' % (color.CYAN, k, color.END, v.strip())
@@ -129,9 +129,9 @@ def logfooter(start, end):
 - __Start Time:__ %s
 - __End Time:__ %s
 - __Total Time Taken:__ %ss
-''' % ( datetime.datetime.now().strftime('%a, %d %b %Y'), 
-        time.strftime("%H:%M:%S %Z", time.localtime(start)), 
-        time.strftime("%H:%M:%S %Z", time.localtime(end)), 
+''' % ( datetime.datetime.now().strftime('%a, %d %b %Y'),
+        time.strftime("%H:%M:%S %Z", time.localtime(start)),
+        time.strftime("%H:%M:%S %Z", time.localtime(end)),
         '%.3f' % (end-start) )
     with open(dirc, 'a', encoding='utf-8', newline='\n') as f:
         f.write(content+'\n')
